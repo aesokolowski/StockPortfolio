@@ -1,11 +1,10 @@
 {
-  "name": "boilermaker",
-  "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "name": "StockPortfolio",
+  "version": "0.1.0",
+  "description": "Build a stock-tracking web app (using an outside API for real-time pricing) per the mockups and user stories provided by NYC Tech Talent Pipeline and their associates.",
   "engines": {
     "node": ">= 7.0.0"
   },
-  "main": "index.js",
   "scripts": {
     "build-client": "webpack",
     "build-client-watch": "webpack -w",
@@ -14,7 +13,6 @@
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint-fix": "npm run lint -- --fix",
     "prepare": "if [ -d .git ]; then npm-merge-driver install; fi",
-    "prettify": "prettier --write \"**/*.{js,jsx,json,css,scss,md}\"",
     "postinstall": "touch secrets.js",
     "seed": "node script/seed.js",
     "start": "node server",
@@ -29,12 +27,10 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "prettier --write",
       "npm run lint-fix",
       "git add"
     ],
     "*.{css,scss,json,md}": [
-      "prettier --write",
       "git add"
     ]
   },
@@ -60,7 +56,7 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^5.3.1",
+    "sequelize": "^5.21.4",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
@@ -94,7 +90,6 @@
     "mocha": "^6.1.4",
     "nodemon": "^1.18.3",
     "npm-merge-driver": "^2.3.5",
-    "prettier": "1.11.1",
     "react-test-renderer": "^16.4.2",
     "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "^1.5.3",
