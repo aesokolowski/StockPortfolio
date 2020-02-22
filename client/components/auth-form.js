@@ -1,17 +1,27 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {auth} from '../store';
+import { login, signup } from '../store';
 
 /**
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props;
+  const { name, displayName, handleSubmit, error } = props;
 
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
+        {name === 'signup' ? (
+          <div>
+            <label htmlFor="username">
+              <small>Username</small>
+            </label>
+            <input name="username" type="text" />
+          </div>
+        ) : (
+           null
+        )}
         <div>
           <label htmlFor="email">
             <small>Email</small>
@@ -57,20 +67,36 @@ const mapSignup = state => {
   };
 };
 
-const mapDispatch = dispatch => {
+const mapDispatchLogin = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault();
       const formName = evt.target.name;
       const email = evt.target.email.value;
       const password = evt.target.password.value;
-      dispatch(auth(email, password, formName));
+
+      dispatch(login(email, password, formName));
+    }
+  };
+
+};
+
+const mapDispatchSignUp = dispatch => {
+  return {
+    handleSubmit(evt) {
+      evt.preventDefault();
+      const formName = evt.target.name;
+      const username = evt.target.username.value;
+      const email = evt.target.email.value;
+      const password = evt.target.password.value;
+
+      dispatch(signup(username, email, password, formName));
     }
   };
 };
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm);
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm);
+export const Login = connect(mapLogin, mapDispatchLogin)(AuthForm);
+export const Signup = connect(mapSignup, mapDispatchSignUp)(AuthForm);
 
 /**
  * PROP TYPES

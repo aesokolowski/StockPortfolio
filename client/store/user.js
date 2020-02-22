@@ -15,8 +15,8 @@ const defaultUser = {};
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user});
-const removeUser = () => ({type: REMOVE_USER});
+const getUser = user => ({ type: GET_USER, user });
+const removeUser = () => ({ type: REMOVE_USER });
 
 /**
  * THUNK CREATORS
@@ -30,12 +30,32 @@ export const me = () => async dispatch => {
   }
 };
 
-export const auth = (email, password, method) => async dispatch => {
+//  I split the boilerplate's auth dispatch function into two, since I need
+//  a different set of parameters for each, so now we have signup and login
+export const signup = (username, email, password, method) => async dispatch => {
   let res;
+
   try {
-    res = await axios.post(`/auth/${method}`, {email, password});
+    res = await axios.post('/auth/signup', { username, email, password });
   } catch (authError) {
-    return dispatch(getUser({error: authError}));
+    return dispatch(getUser({ error: authError }));
+  }
+
+  try {
+    dispatch(getUser(res.data));
+    history.push('/home');
+  } catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr);
+  }
+};
+
+export const login = (email, password, method) => async dispatch => {
+  let res;
+
+  try {
+    res = await axios.post('/auth/login', { email, password });
+  }  catch (authError) {
+    return dispatch(getUser({ error: authError }));
   }
 
   try {
