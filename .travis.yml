@@ -1,27 +1,27 @@
 language: node_js
 node_js:
-  - node # uses most recent stable node version
+- node
 services:
-  - postgresql # starts up postgres
+- postgresql
 addons:
-  postgresql: '10' # recent postgres version on Travis
-dist: xenial # uses xenial environment
+  postgresql: '10'
+dist: xenial
 notifications:
   email:
-    on_success: change # default: change (only when going from broken to fixed)
-    on_failure: always # default: always (which is annoying, as it should be)
+    on_success: change
+    on_failure: always
 install:
-  - npm ci # faster, goes only from package-lock
+- npm ci
 before_script:
-  - psql -c 'create database "StockPortfolio-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+- psql -c 'create database "StockPortfolio-test";' -U postgres
 script:
-  - npm test             # test the code
-  - npm run build-client # make the bundle
-
+- npm test
+- npm run build-client
 before_deploy:
-  - rm -rf node_modules # omit from the tarball, since we skip cleanup
+- rm -rf node_modules
 deploy:
-  skip_cleanup: true # prevents travis from deleting the build
+  skip_cleanup: true
   provider: heroku
-  app: andys-ez-stocks # see README
-  api_key: 01f088b7-2c8f-4f7e-9a29-9f4967d1f504
+  app: andys-ez-stocks
+  api_key:
+    secure: YWL+d70yX4cvCgrAuZIRz2G2QXiMs2QXlQWEi0zmR0Co40aGNUo+q1EjJdLkXgPjep9ge5S5buLmiHDLwrfkcwsbaL5QaV3zjp++ftUbemqtbJx6xGdYtvOWp3Wmoiiwyq3Mm7mQ1d121ttjmoZhsjmWldtyctWyAbgjPv/FbiD2GUGAU5X5hIgrg6RuARL30olhMN4ArR781qlSNDikRZHBBvPzGClVXHrbIeFmb3TDJK3pv1/5Bu6O2gijtuTCw6bxwD5+nYdrrH1KYaJGdcPDP5YI3MbNPVvkVJs0s09eYUWVXh7wX2nyGqcEIfEwBDG4vGSpyx2a7YTuW4SnTRAc5SoygN6zE4pfJqHERnZA2hvI0+9kUOHYUpPb9iu+MRJYNHTFBx3OX/Om7fdwIdu6sfdc8IBeRtwoEL4gODLjtRR/T0p2s7HKGNpOfiM+rclvCimASGt0So4S418nBbEOcignM4u/oVhY/+egBARLj7U0xcGk0lIxSOSn7QDYZgNLYEYXd4NhOQdi9Xbit4ULTnekH0lXMKt6s5l/1fa40m5UeJ/ElMPw8xpm4TT6wuAoPpFP8gPDKlvkDNzt6svh+TlIvOKjHp/lDOuQBTIp+Fl4REA13jgV+Oxs6MW2F3xNJmV12cgj/7XJNrPMiwQWGnQodqMS6vaCsIhU+yc=
