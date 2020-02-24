@@ -12,7 +12,7 @@ const AuthForm = props => {
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
-        {name === 'signup' ? (
+        {name === 'register' ? (
           <div>
             <label htmlFor="username">
               <small>Username</small>
@@ -61,8 +61,8 @@ const mapLogin = state => {
 
 const mapSignup = state => {
   return {
-    name: 'signup',
-    displayName: 'Sign Up',
+    name: 'register',
+    displayName: 'Register',
     error: state.user.error
   };
 };
@@ -96,7 +96,7 @@ const mapDispatchSignUp = dispatch => {
 };
 
 export const Login = connect(mapLogin, mapDispatchLogin)(AuthForm);
-export const Signup = connect(mapSignup, mapDispatchSignUp)(AuthForm);
+export const Register = connect(mapSignup, mapDispatchSignUp)(AuthForm);
 
 /**
  * PROP TYPES
