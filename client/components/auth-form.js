@@ -9,6 +9,8 @@ import { login, signup } from '../store';
 const AuthForm = props => {
   const { name, displayName, handleSubmit, error } = props;
 
+  //  Andrew: I added a conditional to the boilerplate so that the username
+  //  field is only rendered if we're viewing the submit form
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
@@ -78,7 +80,6 @@ const mapDispatchLogin = dispatch => {
       dispatch(login(email, password, formName));
     }
   };
-
 };
 
 const mapDispatchSignUp = dispatch => {

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { buy } from '../store';
 
 const Portfolio = props => {
-  const { username, funds } = props;
-  const handleSubmit = null;
+  const { username, funds, handleSubmit, error } = props;
   //  helper function to display cents in dollar format:
   const centsToDollarString = cents => {
     let charArr = ('$' + cents.toString()).split('');
@@ -42,11 +42,26 @@ const Portfolio = props => {
 const mapState = state => {
   return {
     username: state.user.username,
-    funds: state.user.funds
+    funds: state.user.funds,
+    error: state.user.error
   };
 };
 
-export default connect(mapState)(Portfolio);
+//  map dispatch to props
+const mapDispatch = dispatch => {
+  return {
+    handleSubmit: function(e) {
+      e.preventDefault();
+      const t = e.target;
+      const ticker = t.ticker.value;
+      const quantity = t.quantity.value;
+
+      dispatch(buy(ticker, quantity));
+    }
+  };
+};
+
+export default connect(mapState, mapDispatch)(Portfolio);
 
 Portfolio.propTypes = {
   username: PropTypes.string,
