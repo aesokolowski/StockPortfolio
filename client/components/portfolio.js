@@ -4,13 +4,19 @@ import { connect } from 'react-redux';
 
 const Portfolio = props => {
   const { username, funds } = props;
-  //  temp:
   const handleSubmit = null;
+  //  helper function to display cents in dollar format:
+  const centsToDollarString = cents => {
+    let charArr = ('$' + cents.toString().split(''));
+
+    charArr.splice(-2, 0, '.');
+    return charArr.join('');
+  };
 
   return (
     <div>
-      <h3>{ username }'s Portfolio</h3>
-      <h4>Funds: {funds} cents TODO: CONVERT TO DOLLAR STRING</h4>
+      <h3>{username}'s Portfolio</h3>
+      <h4>Funds: {centsToDollarString(funds)}</h4>
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <div>
