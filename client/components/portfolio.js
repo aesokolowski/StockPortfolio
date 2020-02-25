@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { buy } from '../store';
 
 const Portfolio = props => {
-  const { username, funds, handleSubmit, error } = props;
+  const { username, funds, handleSubmit, portfolio } = props;
   //  helper function to display cents in dollar format:
   const centsToDollarString = cents => {
     let charArr = ('$' + cents.toString()).split('');
@@ -33,6 +33,7 @@ const Portfolio = props => {
           </div>
           <button type="submit">BUY</button>
         </div>
+        {portfolio.error ? <div>{portfolio.error}</div> : null}
       </form>
     </div>
   );
@@ -40,10 +41,12 @@ const Portfolio = props => {
 
 //  map state to props
 const mapState = state => {
+  console.log(state);
+
   return {
     username: state.user.username,
     funds: state.user.funds,
-    error: state.user.error
+    portfolio: state.portfolio
   };
 };
 
@@ -65,5 +68,6 @@ export default connect(mapState, mapDispatch)(Portfolio);
 
 Portfolio.propTypes = {
   username: PropTypes.string,
-  funds: PropTypes.number
+  funds: PropTypes.number,
+  error: PropTypes.string
 };

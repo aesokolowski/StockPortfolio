@@ -10,7 +10,7 @@ const BUY_STOCK = 'BUY_STOCK';
 /**
  * INITIAL STATE
  */
-const defaultPortfolio = [];
+const portfolio = [];
 
 /**
  * ACTION CREATORS
@@ -36,17 +36,44 @@ export const buy = (ticker, quantity) => async dispatch => {
     // test:
     console.log(res.data.companyName);
   } catch (buyError) {
-    console.log(buyError);
+    buyError.response = 'Invalid ticker symbol.';
+    return dispatch(buyStock( { error: buyError }));
+  }
+
+  try {
+    history.push('/portfolio');
+  } catch (dispatchOrHistoryErr) {
+    console.log(error.dispatchOrHistoryErr);
   }
 };
 
 /**
  * REDUCER
  */
-export default function(state = defaultPortfolio, action) {
+export default function(state = { portfolio }, action) {
   switch (action.type) {
     case BUY_STOCK:
-      return [...state, {symbol: action.ticker, qty: action.qty}];
+      const e = action.payload.symbol.error.response;
+
+      //  Andrew:
+      //  I'm not sure if this is good Redux form, but I wanted the same action
+      //  to be able to send two separate error messages: one if the ticker
+      //  symbol is wrong, a different one if the user cannot afford the
+      //  purchase (so far only one error implemented):
+      if (e) {
+        return { ...state, error: e };
+      }
+
+      return {
+        ...state,
+        portfolio: [
+          ...state.portfolio,
+          {
+            symbol: action.ticker,
+            qty: action.qty
+          }
+        ]
+      };
     default:
       return state;
   }
