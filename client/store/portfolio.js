@@ -3,6 +3,9 @@ import history from '../history';
 
 // CONSTANTS:
 const INV_SYM = 'Invalid ticker symbol';
+const INV_QTY = 'Invalid quantity. Must be a postive integer.';
+const GET_FUNDS_ERR = 'Internal error. Try again.';
+const DEL_ERR = 'Cannot afford that much stock of that company.';
 
 /**
  * ACTION TYPES
@@ -31,16 +34,48 @@ const buyStock = (symbol, qty) =>
  * THUNK CREATORS
  */
 export const buy = (ticker, quantity) => async dispatch => {
-  let res;
+  let res;   // response from IEX API
+  let res2;  // response from own API
+  let qty = Number(quantity);
+
+  //  get funds directly from the backend... does this cause an infinite loop
+  //  if it errors? Should the dispatch be removed? Hasn't errored yet...
+  try {
+    res2 = await axios.get('/auth/me/funds');
+  } catch (getFundsError) {
+    getFundsError.response = GET_FUNDS_ERR;
+    console.log('Error: get funds error.');
+    return dispatch(buyStock({ error: getFundsError }));
+  }
+
+  //  dispatch an error with appropriate message if quantity box input is
+  //  invalid i.e. has non-numeric characters or has a decimal point
+  if (!qty || qty !== Math.floor(qty)) {
+    const qtyError = new Error();
+
+    qtyError.response = INV_QTY;
+    return dispatch(buyStock({ error: qtyError }));
+  }
 
   try {
+    //  data request from the IEX API:
     res = await axios.get('https://sandbox.iexapis.com/stable/stock/' + ticker +
       '/quote?token=Tpk_05317838f1c446edb9717bb2d14ad2d9');
-    console.log('stock bought');
+
+    console.log('res:', res);
+    console.log('res2.data', res2.data);
+    //  if user cannot afford that quantity of particular stock, dispatch
+    //  an error message to the screen
+    if (res2.data < res.data.latestPrice * 100 * qty) {
+      const deltaError = new Error();
+
+      deltaError.response = DEL_ERR;
+      return dispatch(buyStock({ error: deltaError }));
+    }
     dispatch(buyStock(ticker, quantity));
   } catch (buyError) {
     buyError.response = INV_SYM;
-    return dispatch(buyStock( { error: buyError }));
+    return dispatch(buyStock({ error: buyError }));
   }
 
   try {
@@ -64,7 +99,7 @@ export default function(state = { stocks }, action) {
       //  symbol is wrong, a different one if the user cannot afford the
       //  purchase (so far only one error implemented):
       if (e) {
-        return { ...state, error: INV_SYM };
+        return { ...state, error: e.response };
       }
 
       const symbol = action.payload.symbol;

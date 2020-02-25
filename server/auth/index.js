@@ -38,6 +38,11 @@ router.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
+router.get('/me/funds', (req, res) => {
+  console.log('req.user.funds:', req.user.funds);
+  res.json(req.user.funds);
+});
+
 router.get('/me', (req, res) => {
   res.json(req.user);
 });
