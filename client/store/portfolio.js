@@ -57,7 +57,6 @@ export default function(state = { stocks }, action) {
   switch (action.type) {
     case BUY_STOCK:
       const e = action.payload.symbol.error;
-      //console.log(e);
 
       //  Andrew:
       //  I'm not sure if this is good Redux form, but I wanted the same action
@@ -68,13 +67,37 @@ export default function(state = { stocks }, action) {
         return { ...state, error: INV_SYM };
       }
 
+      const symbol = action.payload.symbol;
+      const newQty = Number(action.payload.qty);
+      const stocks = state.stocks;
+      let oldQty = 0;
+      //  this conditonal is so the following for loop is skipped if the
+      //  user owns no stocks
+      let hiInd = stocks === [] ? -1 : stocks.length - 1;
+
+      //  search to see if already own stock of this company -- if we do,
+      //  break and save the index location
+      for (let i = 0; i <= hiInd; i++) {
+        console.log('hit for loop');
+        if (stocks[i].symbol === symbol) {
+          //  store old quantity
+          oldQty = stocks[i].qty;
+          //  swap if necessary
+          if (i !== hiInd) {
+            [stocks[i], stocks[hiInd]] = [stocks[hiInd], stocks[i]];
+          }
+          // pop
+          stocks.pop();
+        }
+      }
+
       return {
         ...state,
         stocks: [
           ...state.stocks,
           {
-            symbol: action.payload.symbol,
-            qty: action.payload.qty
+            symbol,
+            qty: oldQty + newQty
           }
         ],
         error: undefined
