@@ -7,7 +7,7 @@ const Portfolio = props => {
   const handleSubmit = null;
   //  helper function to display cents in dollar format:
   const centsToDollarString = cents => {
-    let charArr = ('$' + cents.toString().split(''));
+    let charArr = ('$' + cents.toString()).split('');
 
     charArr.splice(-2, 0, '.');
     return charArr.join('');
@@ -37,7 +37,6 @@ const Portfolio = props => {
     </div>
   );
 };
-
 
 //  map state to props
 const mapState = state => {
