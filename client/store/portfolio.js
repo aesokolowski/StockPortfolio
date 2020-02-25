@@ -66,7 +66,7 @@ export const buy = (ticker, quantity) => async dispatch => {
     console.log('res2.data', res2.data);
     //  if user cannot afford that quantity of particular stock, dispatch
     //  an error message to the screen
-    if (res2.data < res.data.latestPrice * 100 * qty) {
+    if (res2.data.funds < res.data.latestPrice * 100 * qty) {
       const deltaError = new Error();
 
       deltaError.response = DEL_ERR;

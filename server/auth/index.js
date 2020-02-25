@@ -38,9 +38,35 @@ router.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
-router.get('/me/funds', (req, res) => {
-  console.log('req.user.funds:', req.user.funds);
-  res.json(req.user.funds);
+//  update proper User.funds field on the backend:
+router.post('/me/funds/:newFunds', async (req, res) => {
+  try {
+    const data = await User.update({
+      funds: newFunds
+    },
+    {
+      where: {
+        id: req.user.id
+      }
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+//  in determining whether a user can afford an action, I'd
+//  prefer to get the funds from the backend rather than rely on
+//  the frontend store data
+router.get('/me/funds', async (req, res, next) => {
+  try {
+    const data = await User.findByPk(req.user.id, {
+      attributes: ['funds']
+    });
+
+    res.status(200).json(data);
+  } catch (e) {
+    next(e);
+  }
 });
 
 router.get('/me', (req, res) => {
