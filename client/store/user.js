@@ -30,12 +30,16 @@ export const me = () => async dispatch => {
   }
 };
 
-//  I split the boilerplate's auth dispatch function into two, since I need
-//  a different set of parameters for each, so now we have signup and login
+//  Andrew: I split the boilerplate's auth dispatch function into two, since I
+//  need a different set of parameters for each, so now we have signup and login
 export const signup = (username, email, password, method) => async dispatch => {
   let res;
 
   try {
+    //  Andrew: for the life of me I can't figure out how I'm getting every-
+    //  thing from the backend user model EXCEPT the password and salt --
+    //  which is desirable behavior, I just can't seem to trace it:
+    //  maybe it has something to do with passport?
     res = await axios.post('/auth/signup', { username, email, password });
   } catch (authError) {
     return dispatch(getUser({ error: authError }));

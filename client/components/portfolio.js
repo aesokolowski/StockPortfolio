@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const Portfolio = props => {
-  const { username } = props;
+  const { username, funds } = props;
   //  temp:
   const handleSubmit = null;
 
   return (
     <div>
       <h3>{ username }'s Portfolio</h3>
-      <h4>Funds: TODO: GET FUNDS FROM USER</h4>
+      <h4>Funds: {funds} cents TODO: CONVERT TO DOLLAR STRING</h4>
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <div>
@@ -36,12 +36,14 @@ const Portfolio = props => {
 //  map state to props
 const mapState = state => {
   return {
-    username: state.user.username
+    username: state.user.username,
+    funds: state.user.funds
   };
 };
 
 export default connect(mapState)(Portfolio);
 
 Portfolio.propTypes = {
-  username: PropTypes.string
+  username: PropTypes.string,
+  funds: PropTypes.number
 };

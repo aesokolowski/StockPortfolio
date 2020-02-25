@@ -46,7 +46,7 @@ const createApp = () => {
 
   // body parsing middleware
   app.use(express.json());
-  app.use(express.urlencoded({extended: true}));
+  app.use(express.urlencoded({ extended: true }));
 
   // compression middleware
   app.use(compression());
