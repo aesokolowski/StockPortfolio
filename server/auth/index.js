@@ -39,16 +39,20 @@ router.post('/logout', (req, res) => {
 });
 
 //  update proper User.funds field on the backend:
-router.post('/me/funds/:newFunds', async (req, res) => {
+router.put('/me/funds/:newFunds', async (req, res, next) => {
+  console.log('req.params.newFunds:', req.params.newFunds);
+  console.log('req.user.id:', req.user.id);
   try {
     const data = await User.update({
-      funds: newFunds
+      funds: req.params.newFunds
     },
     {
       where: {
         id: req.user.id
       }
     });
+
+    res.json(req.params.newFunds);
   } catch (e) {
     next(e);
   }

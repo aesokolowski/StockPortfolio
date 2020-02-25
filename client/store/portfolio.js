@@ -34,9 +34,11 @@ const buyStock = (symbol, qty) =>
  * THUNK CREATORS
  */
 export const buy = (ticker, quantity) => async dispatch => {
-  let res;   // response from IEX API
-  let res2;  // response from own API
+  let res;   // response from IEX API get request
+  let res2;  // response from own API get request
+  let res3;  // response from own API post request
   let qty = Number(quantity);
+  let newFunds;
 
   //  get funds directly from the backend... does this cause an infinite loop
   //  if it errors? Should the dispatch be removed? Hasn't errored yet...
@@ -72,6 +74,9 @@ export const buy = (ticker, quantity) => async dispatch => {
       deltaError.response = DEL_ERR;
       return dispatch(buyStock({ error: deltaError }));
     }
+
+    newFunds = Math.floor(res2.data.funds - res.data.latestPrice * 100 * qty);
+    res3 = axios.put('/auth/me/funds/' + newFunds);
     dispatch(buyStock(ticker, quantity));
   } catch (buyError) {
     buyError.response = INV_SYM;
