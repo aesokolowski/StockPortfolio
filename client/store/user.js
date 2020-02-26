@@ -86,7 +86,6 @@ export const setFunds = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me/funds');
 
-    console.log('setFunds::res:', res);
     dispatch(newFunds(res.data.funds));
   } catch (err) {
     console.log(err);
