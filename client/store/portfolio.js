@@ -93,6 +93,8 @@ export const buy = (ticker, quantity) => async dispatch => {
       updateError.response = GET_FUNDS_ERR;
       return dispatch(buyStock({ error: updateError }));
     }
+
+
     //  this dispatch either creates a new entry or updates an existing one
     dispatch(buyStock(ticker, quantity));
   } catch (buyError) {
@@ -189,7 +191,7 @@ export default function(state = { stocks }, action) {
     case CLEAR_SUCCESS_MSG:
       return { ...state, success: action.payload };
     case REMOVE_PORTFOLIO:
-      return { reset };
+      return { stocks: reset };
     default:
       return state;
   }

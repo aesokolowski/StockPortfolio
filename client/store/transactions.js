@@ -25,7 +25,11 @@ export const updateTransactions = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me/transactions');
 
-    dispatch(updateRecord(res.data.transactions));
+    if (res.data.transactions) {
+      dispatch(updateRecord(res.data.transactions));
+    } else {
+      dispatch(updateRecord([]));
+    }
   } catch (utError) {
     console.log(utError);
   }

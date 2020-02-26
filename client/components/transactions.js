@@ -16,7 +16,7 @@ const Transactions = props => {
               <div>
                 Transaction #: {transaction.id}
                 <br />
-                Symbol: {transaction.symbol}
+                Symbol: {transaction.symbol.toUpperCase()}
                 <br />
                 Company Name: {transaction.companyName}
                 <br />

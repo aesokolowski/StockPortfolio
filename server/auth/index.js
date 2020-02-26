@@ -76,24 +76,29 @@ router.get('/me/funds', async (req, res, next) => {
 
 router.get('/me/transactions', async (req, res, next) => {
   try {
-    const data = await User.findByPk(req.user.id, {
-      transactions: {
-        where: {
-          userId: req.user.id
+    if (req.user) {
+      const data = await User.findByPk(req.user.id, {
+        transactions: {
+          where: {
+            userId: req.user.id
+          },
+          attributes: [
+            'symbol',
+            'companyName',
+            'quantity',
+            'boughtAt',
+            'transTotal',
+            'createdAt'
+          ]
         },
-        attributes: [
-          'symbol',
-          'companyName',
-          'quantity',
-          'boughtAt',
-          'transTotal',
-          'createdAt'
-        ]
-      },
-      include: [{ model: Transaction }]
-    });
+        include: [{ model: Transaction }]
+      });
 
-    res.status(200).json(data);
+      res.status(200).json(data);
+      return;
+    }
+
+    res.status(200).send([]);
   } catch (e) {
     next(e);
   }
