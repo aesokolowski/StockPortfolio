@@ -157,7 +157,7 @@ export default function(state = { stocks }, action) {
       let oldQty = 0;
       //  this conditonal is so the following for loop is skipped if the
       //  user owns no stocks:
-      let hiInd = stocks === [] ? -1 : stocks.length - 1;
+      let hiInd = stocks === [] || !stocks ? -1 : stocks.length - 1;
 
       //  search to see if already own stock of this company -- if we do,
       //  break and save the index location
