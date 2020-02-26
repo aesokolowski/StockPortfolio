@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Login, Register, Portfolio } from './components';
+import { Login, Register, Portfolio, Transactions } from './components';
 import { me, updateTransactions } from './store';
 
 /**
@@ -26,9 +26,8 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route
-              path="/portfolio"
-              component={Portfolio} />
+            <Route path="/portfolio" component={Portfolio} />
+            <Route path="/transactions" component={Transactions} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

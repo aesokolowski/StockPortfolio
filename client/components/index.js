@@ -4,6 +4,6 @@
  * having to figure out which file they belong to!
  */
 export { default as Navbar } from './navbar';
-export { default as UserHome } from './user-home';
 export { Login, Register } from './auth-form';
 export { default as Portfolio } from './portfolio';
+export { default as Transactions } from './transactions';
