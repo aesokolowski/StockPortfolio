@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { buy, clearSuccessMsg, setFunds, updateTransactions } from '../store';
+import {
+  buy,
+  clearSuccessMsg,
+  setFunds,
+  updateTransactions,
+  updatePortfolio
+} from '../store';
 
 const SUC_MSG = 'Purchase successful.';
 
@@ -9,7 +15,8 @@ const Portfolio = props => {
   const {
     username, funds, portfolio,             //  state
     handleSubmit, handleChange,             //  events dispatch
-    updateFunds, updateTransactions         //  conditional reload dispatch
+    updateFunds, updateTransactions,        //  conditional reload dispatch
+    updateStocks
   } = props;
   //  helper function to display cents in dollar format:
   const centsToDollarString = cents => {
@@ -21,6 +28,7 @@ const Portfolio = props => {
 
   if (portfolio.success) {
     updateFunds();
+    updateStocks();
   }
 
   updateTransactions();
@@ -59,7 +67,7 @@ const Portfolio = props => {
               <div key={idx}>
                 Symbol: {stock.symbol}
                 <br />
-                Quantity: {stock.qty}
+                Quantity: {stock.quantity}
                 <br />
                 <br />
               </div>
@@ -103,6 +111,9 @@ const mapDispatch = dispatch => {
     },
     updateTransactions: function() {
       dispatch(updateTransactions());
+    },
+    updateStocks: function() {
+      dispatch(updatePortfolio());
     }
   };
 };
@@ -114,4 +125,9 @@ Portfolio.propTypes = {
   funds: PropTypes.number,
   error: PropTypes.string,
   portfolio: PropTypes.object,
+  handleSubmit: PropTypes.func,
+  handldChange: PropTypes.func,
+  updateFunds: PropTypes.func,
+  updateTransactions: PropTypes.func,
+  updateStocks: PropTypes.func
 };

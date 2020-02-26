@@ -35,6 +35,8 @@ const buyStock = (symbol, qty) =>
     }
   });
 
+const loadPortfolio = data => ({ type: LOAD_PORTFOLIO, payload: data });
+
 export const removePortfolio = () => ({ type: REMOVE_PORTFOLIO });
 
 export const clearSuccessMsg = () =>
@@ -70,6 +72,7 @@ export const updatePortfolio = () => async dispatch => {
     }, []);
 
     console.log(dupsRem);
+    dispatch(loadPortfolio(dupsRem));
   } catch (err) {
     console.log(err);
   }
@@ -218,13 +221,6 @@ export default function(state = { stocks }, action) {
 
       return {
         ...state,
-        stocks: [
-          ...state.stocks,
-          {
-            symbol,
-            qty: oldQty + newQty
-          }
-        ],
         error: undefined,
         success: true
       };
@@ -232,6 +228,8 @@ export default function(state = { stocks }, action) {
       return { ...state, success: action.payload };
     case REMOVE_PORTFOLIO:
       return { stocks: reset };
+    case LOAD_PORTFOLIO:
+      return { stocks: action.payload };
     default:
       return state;
   }
