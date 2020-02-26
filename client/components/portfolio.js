@@ -25,6 +25,8 @@ const Portfolio = props => {
 
   updateTransactions();
 
+  let num = 1;  // for key purposes
+
   return (
     <div>
       <h3>{username}'s Portfolio</h3>
@@ -48,6 +50,21 @@ const Portfolio = props => {
         <div>
           {portfolio.error ? <div>{portfolio.error}</div> : null}
           {portfolio.success ? <div>{SUC_MSG}</div> : null}
+        </div>
+        <br />
+        <br />
+        <div>
+          {
+            portfolio.stocks.map((stock, idx) => (
+              <div key={idx}>
+                Symbol: {stock.symbol}
+                <br />
+                Quantity: {stock.qty}
+                <br />
+                <br />
+              </div>
+            ))
+          }
         </div>
       </form>
     </div>

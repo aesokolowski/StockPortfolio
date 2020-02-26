@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 const Transactions = props => {
   const { username, transactions } = props;
 
-  console.log('Transactions::transaction:', transactions);
   return (
     <div>
       <h3>{username}'s Transaction History</h3>

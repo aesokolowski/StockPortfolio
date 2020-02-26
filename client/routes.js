@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Login, Register, Portfolio, Transactions } from './components';
-import { me, updateTransactions } from './store';
+import { me, updateTransactions, updatePortfolio } from './store';
 
 /**
  * COMPONENT
@@ -12,11 +12,11 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData();
     this.props.loadTransactions();
+    this.props.loadPortfolio();
   }
 
   render() {
     const { isLoggedIn } = this.props;
-    console.log(this.props);
 
     return (
       <Switch>
@@ -55,6 +55,9 @@ const mapDispatch = dispatch => {
     },
     loadTransactions() {
       dispatch(updateTransactions());
+    },
+    loadPortfolio() {
+      dispatch(updatePortfolio());
     }
   };
 };

@@ -15,6 +15,7 @@ const UPDATE_TRANS_ERR = 'Unable to load transaction record to database.';
 const BUY_STOCK = 'BUY_STOCK';
 const CLEAR_SUCCESS_MSG = 'CLEAR_SUCCESS_MSG';
 const REMOVE_PORTFOLIO = 'REMOVE_PORTFOLIO';
+const LOAD_PORTFOLIO = 'LOAD_PORTFOLIO';
 
 /**
  * INITIAL STATE
@@ -42,6 +43,38 @@ export const clearSuccessMsg = () =>
 /**
  * THUNK CREATORS
  */
+export const updatePortfolio = () => async dispatch => {
+  try {
+    const res = await axios.get('auth/me/portfolio');
+
+    console.log('updatePortfolio::res.data:', res.data);
+
+    //  reduce portfolio to remove duplicates:
+    const dupsRem = res.data.portfolios.reduce((acc, portfolio) => {
+      let symbol = portfolio.symbol;
+      let found = false;
+
+      for (let prev of acc) {
+        if (prev.symbol === symbol) {
+          prev.quantity += portfolio.quantity;
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        acc.push({ symbol: portfolio.symbol, quantity: portfolio.quantity });
+      }
+
+      return acc;
+    }, []);
+
+    console.log(dupsRem);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const buy = (ticker, quantity) => async dispatch => {
   let res;   // response from IEX API get request
   let res2;  // response from own API get request
@@ -124,6 +157,13 @@ export const buy = (ticker, quantity) => async dispatch => {
     });
 
     console.log('res4:', res4);
+
+    const res5 = await axios.post('/api/portfolio/' + userId.data, {
+      symbol: ticker,
+      quantity
+    });
+
+    console.log('res5:', res5);
   } catch (updateError) {
     updateError.response = UPDATE_TRANS_ERR;
     return dispatch(buyStock({ error: updateError }));
