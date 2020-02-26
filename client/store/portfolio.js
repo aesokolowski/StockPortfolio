@@ -6,6 +6,7 @@ const INV_SYM = 'Invalid ticker symbol';
 const INV_QTY = 'Invalid quantity. Must be a postive integer.';
 const GET_FUNDS_ERR = 'Internal error. Try again.';
 const DEL_ERR = 'Cannot afford that much stock of that company.';
+const UPDATE_TRANS_ERR = 'Unable to load transaction record to database.';
 
 /**
  * ACTION TYPES
@@ -79,17 +80,49 @@ export const buy = (ticker, quantity) => async dispatch => {
       return dispatch(buyStock({ error: deltaError }));
     }
 
+    //  update funds on the database: updating funds on the front-end should
+    //  be triggered when the portfolio component reloads
     newFunds = Math.floor(res2.data.funds - res.data.latestPrice * 100 * qty);
     try {
       res3 = axios.put('/auth/me/funds/', { newFunds });
     } catch (updateError) {
       updateError.response = GET_FUNDS_ERR;
-      return dispatch(buyStock({ error: updateDrror }));
+      return dispatch(buyStock({ error: updateError }));
     }
+    //  this dispatch either creates a new entry or updates an existing one
     dispatch(buyStock(ticker, quantity));
   } catch (buyError) {
     buyError.response = INV_SYM;
     return dispatch(buyStock({ error: buyError }));
+  }
+
+  //  record this transaction in the database as well as the store
+  try {
+    let companyName = res.data.companyName;
+    let boughtAt = Math.floor(res.data.latestPrice * 100);
+    let userId;
+    //  get userId:
+    try {
+      userId = await axios.get('/auth/me/uid');
+    } catch (userIdError) {
+      userIdError.response = GET_FUNDS_ERR; // generic response
+      return dispatch(buyStock({ error: buyError }));
+    }
+    console.log('ticker:', ticker);
+    console.log('companyName:', companyName);
+    console.log('boughtAt:', boughtAt);
+    console.log('userId:', userId);
+    const res4 = await axios.post('/api/transactions/' + userId.data, {
+      symbol: ticker,
+      companyName,
+      quantity,
+      boughtAt
+    });
+
+    console.log(res4);
+  } catch (updateError) {
+    updateError.response = UPDATE_TRANS_ERR;
+    return dispatch(buyStock({ error: updateError }));
   }
 
   try {
@@ -127,7 +160,6 @@ export default function(state = { stocks }, action) {
       //  search to see if already own stock of this company -- if we do,
       //  break and save the index location
       for (let i = 0; i <= hiInd; i++) {
-        console.log('hit for loop');
         if (stocks[i].symbol === symbol) {
           //  store old quantity
           oldQty = stocks[i].qty;

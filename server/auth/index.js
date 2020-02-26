@@ -73,6 +73,10 @@ router.get('/me/funds', async (req, res, next) => {
   }
 });
 
+router.get('/me/uid', async (req, res, next) => {
+  res.json(req.user.id);
+});
+
 router.get('/me', (req, res) => {
   res.json(req.user);
 });
