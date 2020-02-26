@@ -14,11 +14,13 @@ const UPDATE_TRANS_ERR = 'Unable to load transaction record to database.';
 
 const BUY_STOCK = 'BUY_STOCK';
 const CLEAR_SUCCESS_MSG = 'CLEAR_SUCCESS_MSG';
+const REMOVE_PORTFOLIO = 'REMOVE_PORTFOLIO';
 
 /**
  * INITIAL STATE
  */
 const stocks = [];
+const reset = [];
 
 /**
  * ACTION CREATORS
@@ -31,6 +33,8 @@ const buyStock = (symbol, qty) =>
       qty
     }
   });
+
+export const removePortfolio = () => ({ type: REMOVE_PORTFOLIO });
 
 export const clearSuccessMsg = () =>
   ({ type: CLEAR_SUCCESS_MSG, payload: false });
@@ -184,6 +188,8 @@ export default function(state = { stocks }, action) {
       };
     case CLEAR_SUCCESS_MSG:
       return { ...state, success: action.payload };
+    case REMOVE_PORTFOLIO:
+      return { reset };
     default:
       return state;
   }

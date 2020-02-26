@@ -78,6 +78,9 @@ router.get('/me/transactions', async (req, res, next) => {
   try {
     const data = await User.findByPk(req.user.id, {
       transactions: {
+        where: {
+          userId: req.user.id
+        },
         attributes: [
           'symbol',
           'companyName',

@@ -21,8 +21,9 @@ const Portfolio = props => {
 
   if (portfolio.success) {
     updateFunds();
-    updateTransactions();
   }
+
+  updateTransactions();
 
   return (
     <div>

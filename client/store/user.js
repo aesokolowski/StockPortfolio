@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from '../history';
+import { removePortfolio, removeTransactions } from '../store';
 
 /**
  * ACTION TYPES
@@ -75,7 +76,8 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout');
     dispatch(removeUser());
-    //  TODO: want to see if I can clear out the portfolio list from here
+    dispatch(removePortfolio());
+    dispatch(removeTransactions());
     history.push('/login');
   } catch (err) {
     console.error(err);
