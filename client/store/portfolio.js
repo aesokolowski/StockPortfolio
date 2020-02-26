@@ -80,7 +80,12 @@ export const buy = (ticker, quantity) => async dispatch => {
     }
 
     newFunds = Math.floor(res2.data.funds - res.data.latestPrice * 100 * qty);
-    res3 = axios.put('/auth/me/funds/' + newFunds);
+    try {
+      res3 = axios.put('/auth/me/funds/', { newFunds });
+    } catch (updateError) {
+      updateError.response = GET_FUNDS_ERR;
+      return dispatch(buyStock({ error: updateDrror }));
+    }
     dispatch(buyStock(ticker, quantity));
   } catch (buyError) {
     buyError.response = INV_SYM;
