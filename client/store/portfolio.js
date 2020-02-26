@@ -109,7 +109,7 @@ export const buy = (ticker, quantity) => async dispatch => {
   try {
     //  data request from the IEX API:
     res = await axios.get('https://sandbox.iexapis.com/stable/stock/' + ticker +
-      '/quote?' + I_T);
+      '/quote?token=' + I_T);
 
     console.log('res:', res);
     console.log('res2.data', res2.data);
