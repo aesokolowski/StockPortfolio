@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { buy } from '../store';
+import { buy, clearSuccessMsg } from '../store';
+
+const SUC_MSG = 'Purchase successful.';
 
 const Portfolio = props => {
-  const { username, funds, handleSubmit, portfolio } = props;
+  const {
+    username, funds, portfolio,     //  state
+    handleSubmit, handleChange      //  dispatch
+  } = props;
   //  helper function to display cents in dollar format:
   const centsToDollarString = cents => {
     let charArr = ('$' + cents.toString()).split('');
@@ -23,17 +28,20 @@ const Portfolio = props => {
             <label htmlFor="ticker">
               Ticker
             </label>
-            <input name="ticker" type="text" />
+            <input name="ticker" type="text" onChange={handleChange} />
           </div>
           <div>
             <label htmlFor="quantity" type="text">
               Quantity
             </label>
-            <input name="quantity" type="text" />
+            <input name="quantity" type="text" onChange={handleChange} />
           </div>
           <button type="submit">BUY</button>
         </div>
-        {portfolio.error ? <div>{portfolio.error}</div> : null}
+        <div>
+          {portfolio.error ? <div>{portfolio.error}</div> : null}
+          {portfolio.success ? <div>{SUC_MSG}</div> : null}
+        </div>
       </form>
     </div>
   );
@@ -60,6 +68,13 @@ const mapDispatch = dispatch => {
       const quantity = t.quantity.value;
 
       dispatch(buy(ticker, quantity));
+    },
+    handleChange: function(e) {
+      e.preventDefault();
+      const t = e.target;
+      console.log(t);
+
+      dispatch(clearSuccessMsg());
     }
   };
 };

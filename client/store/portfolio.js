@@ -12,6 +12,7 @@ const DEL_ERR = 'Cannot afford that much stock of that company.';
  */
 
 const BUY_STOCK = 'BUY_STOCK';
+const CLEAR_SUCCESS_MSG = 'CLEAR_SUCCESS_MSG';
 
 /**
  * INITIAL STATE
@@ -29,6 +30,9 @@ const buyStock = (symbol, qty) =>
       qty
     }
   });
+
+export const clearSuccessMsg = () =>
+  ({ type: CLEAR_SUCCESS_MSG, payload: false });
 
 /**
  * THUNK CREATORS
@@ -112,7 +116,7 @@ export default function(state = { stocks }, action) {
       const stocks = state.stocks;
       let oldQty = 0;
       //  this conditonal is so the following for loop is skipped if the
-      //  user owns no stocks
+      //  user owns no stocks:
       let hiInd = stocks === [] ? -1 : stocks.length - 1;
 
       //  search to see if already own stock of this company -- if we do,
@@ -140,8 +144,11 @@ export default function(state = { stocks }, action) {
             qty: oldQty + newQty
           }
         ],
-        error: undefined
+        error: undefined,
+        success: true
       };
+    case CLEAR_SUCCESS_MSG:
+      return { ...state, success: action.payload };
     default:
       return state;
   }
