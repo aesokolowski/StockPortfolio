@@ -2,7 +2,7 @@ import axios from 'axios';
 import history from '../history';
 
 // CONSTANTS:
-const I_T = process.env.IEX_TOL;
+const I_T = process.env.IEX_TOK;
 
 const INV_SYM = 'Invalid ticker symbol';
 const INV_QTY = 'Invalid quantity. Must be a postive integer.';
