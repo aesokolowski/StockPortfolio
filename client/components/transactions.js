@@ -5,6 +5,14 @@ import { connect } from 'react-redux';
 const Transactions = props => {
   const { username, transactions } = props;
 
+  //  helper function to display cents in dollar format:
+  const centsToDollarString = cents => {
+    let charArr = ('$' + cents.toString()).split('');
+
+    charArr.splice(-2, 0, '.');
+    return charArr.join('');
+  };
+
   return (
     <div>
       <h3>{username}'s Transaction History</h3>
@@ -21,9 +29,9 @@ const Transactions = props => {
                 <br />
                 # of Shares: {transaction.quantity}
                 <br />
-                Share price: {transaction.boughtAt}
+                Share price: {centsToDollarString(transaction.boughtAt)}
                 <br />
-                Total cost: {transaction.transTotal}
+                Total cost: {centsToDollarString(transaction.transTotal)}
                 <br />
                 Purchase date: {transaction.createdAt}
                 <br />
