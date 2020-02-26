@@ -2,6 +2,8 @@ import axios from 'axios';
 import history from '../history';
 
 // CONSTANTS:
+const I_T = process.env.IEX_TOL;
+
 const INV_SYM = 'Invalid ticker symbol';
 const INV_QTY = 'Invalid quantity. Must be a postive integer.';
 const GET_FUNDS_ERR = 'Internal error. Try again.';
@@ -107,7 +109,7 @@ export const buy = (ticker, quantity) => async dispatch => {
   try {
     //  data request from the IEX API:
     res = await axios.get('https://sandbox.iexapis.com/stable/stock/' + ticker +
-      '/quote?token=Tpk_05317838f1c446edb9717bb2d14ad2d9');
+      '/quote?' + I_T);
 
     console.log('res:', res);
     console.log('res2.data', res2.data);
