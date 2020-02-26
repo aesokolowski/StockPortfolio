@@ -52,7 +52,7 @@ router.put('/me/funds/:newFunds', async (req, res, next) => {
       }
     });
 
-    res.json(req.params.newFunds);
+    res.json(data);
   } catch (e) {
     next(e);
   }

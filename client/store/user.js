@@ -6,6 +6,7 @@ import history from '../history';
  */
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
+const NEW_FUNDS = 'NEW_FUNDS';
 
 /**
  * INITIAL STATE
@@ -16,6 +17,7 @@ const defaultUser = {};
  */
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
+const newFunds = funds => ({ type: NEW_FUNDS, funds });
 
 /**
  * THUNK CREATORS
@@ -80,6 +82,17 @@ export const logout = () => async dispatch => {
   }
 };
 
+export const setFunds = () => async dispatch => {
+  try {
+    const res = await axios.get('/auth/me/funds');
+
+    console.log('setFunds::res:', res);
+    dispatch(newFunds(res.data.funds));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 /**
  * REDUCER
  */
@@ -89,6 +102,8 @@ export default function(state = defaultUser, action) {
       return action.user;
     case REMOVE_USER:
       return defaultUser;
+    case NEW_FUNDS:
+      return { ...state, funds: action.funds };
     default:
       return state;
   }
