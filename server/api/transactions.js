@@ -1,8 +1,7 @@
 const router = require('express').Router();
-const { Transaction, User } = require('../db/models');
+const { Transaction } = require('../db/models');
 
 router.post('/:userID', async (req, res, next) => {
-  console.log('hit post request');
   try {
     const price = req.body.boughtAt;
     const qty = req.body.quantity;
