@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { buy, clearSuccessMsg, setFunds } from '../store';
+import { buy, clearSuccessMsg, setFunds, updateTransactions } from '../store';
 
 const SUC_MSG = 'Purchase successful.';
 
 const Portfolio = props => {
   const {
     username, funds, portfolio,             //  state
-    handleSubmit, handleChange, updateFunds //  dispatch
+    handleSubmit, handleChange,             //  events dispatch
+    updateFunds, updateTransactions         //  conditional reload dispatch
   } = props;
   //  helper function to display cents in dollar format:
   const centsToDollarString = cents => {
@@ -20,6 +21,7 @@ const Portfolio = props => {
 
   if (portfolio.success) {
     updateFunds();
+    updateTransactions();
   }
 
   return (
@@ -80,6 +82,9 @@ const mapDispatch = dispatch => {
     },
     updateFunds: function() {
       dispatch(setFunds());
+    },
+    updateTransactions: function() {
+      dispatch(updateTransactions());
     }
   };
 };

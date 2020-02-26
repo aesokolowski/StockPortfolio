@@ -4,7 +4,7 @@ import history from '../history';
 /**
   * ACTION TYPES
   */
-const ADD_RECORD = 'ADD_RECORD';
+const UPDATE_RECORD = 'UPDATE_RECORD';
 
 /**
   * INITIAL STATE
@@ -14,33 +14,29 @@ const defaultTransactions = [];
 /**
   * ACTION CREATORS
   */
-export const addRecord = (symbol, companyName, quantity, boughtAt, userId) =>
-  ({
-    type: ADD_RECORD,
-    payload: {
-      symbol,
-      companyName,
-      quantity,
-      boughtAt,
-      userId
-    }
-  });
+const updateRecord = record => ({ type: UPDATE_RECORD, payload: record });
+
+/**
+  * THUNK CREATORS
+  */
+export const updateTransactions = () => async dispatch => {
+  try {
+    const res = await axios.get('/auth/me/transactions');
+
+    dispatch(updateRecord(res.data.transactions));
+  } catch (utError) {
+    console.log(utError);
+  }
+};
 
 /**
   * REDUCER
   */
 export default function(state = defaultTransactions, action) {
-  const p = action.payload;
 
   switch (action.type) {
-    case ADD_RECORD:
-      return [...state, {
-        symbol: p.symbol,
-        companyName: p.companyName,
-        quantity: p.quantity,
-        boughtAt: p.boughtAt,
-        userId: p.userId
-      }];
+    case UPDATE_RECORD:
+      return action.payload;
     default:
       return state;
   }

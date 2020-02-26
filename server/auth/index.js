@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../db/models/user');
+const Transaction = require('../db/models/transaction');
 module.exports = router;
 
 router.post('/login', async (req, res, next) => {
@@ -65,6 +66,28 @@ router.get('/me/funds', async (req, res, next) => {
   try {
     const data = await User.findByPk(req.user.id, {
       attributes: ['funds']
+    });
+
+    res.status(200).json(data);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/me/transactions', async (req, res, next) => {
+  try {
+    const data = await User.findByPk(req.user.id, {
+      transactions: {
+        attributes: [
+          'symbol',
+          'companyName',
+          'quantity',
+          'boughtAt',
+          'transTotal',
+          'createdAt'
+        ]
+      },
+      include: [{ model: Transaction }]
     });
 
     res.status(200).json(data);

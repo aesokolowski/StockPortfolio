@@ -96,7 +96,8 @@ export const buy = (ticker, quantity) => async dispatch => {
     return dispatch(buyStock({ error: buyError }));
   }
 
-  //  record this transaction in the database as well as the store
+  //  record this transaction in the database: for the store, I'm going to have
+  //  to follow the lead of the GET_FUNDS dispatch, I believe
   try {
     let companyName = res.data.companyName;
     let boughtAt = Math.floor(res.data.latestPrice * 100);
@@ -108,10 +109,7 @@ export const buy = (ticker, quantity) => async dispatch => {
       userIdError.response = GET_FUNDS_ERR; // generic response
       return dispatch(buyStock({ error: buyError }));
     }
-    console.log('ticker:', ticker);
-    console.log('companyName:', companyName);
-    console.log('boughtAt:', boughtAt);
-    console.log('userId:', userId);
+
     const res4 = await axios.post('/api/transactions/' + userId.data, {
       symbol: ticker,
       companyName,
@@ -119,7 +117,7 @@ export const buy = (ticker, quantity) => async dispatch => {
       boughtAt
     });
 
-    console.log(res4);
+    console.log('res4:', res4);
   } catch (updateError) {
     updateError.response = UPDATE_TRANS_ERR;
     return dispatch(buyStock({ error: updateError }));
