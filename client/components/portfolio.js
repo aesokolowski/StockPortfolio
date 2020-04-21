@@ -18,6 +18,7 @@ const Portfolio = props => {
     updateFunds, updateTransactions,        //  conditional reload dispatch
     updateStocks
   } = props;
+
   //  helper function to display cents in dollar format:
   const centsToDollarString = cents => {
     let charArr = ('$' + cents.toString()).split('');
@@ -26,14 +27,13 @@ const Portfolio = props => {
     return charArr.join('');
   };
 
+  console.log('portfolio.success?:', portfolio.success);
   if (portfolio.success) {
     updateFunds();
     updateStocks();
   }
 
   updateTransactions();
-
-  let num = 1;  // for key purposes
 
   return (
     <div>
