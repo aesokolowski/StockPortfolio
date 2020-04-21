@@ -31,7 +31,7 @@ export const updateTransactions = () => async dispatch => {
       dispatch(updateRecord([]));
     }
   } catch (utError) {
-    console.log(utError);
+    console.err(utError);
   }
 };
 
