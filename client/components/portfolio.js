@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   buy,
   clearSuccessMsg,
   setFunds,
+  setUpdate,
+  stopUpdate,
   updateTransactions,
   updatePortfolio
 } from '../store';
@@ -13,10 +15,10 @@ const SUC_MSG = 'Purchase successful.';
 
 const Portfolio = props => {
   const {
-    username, funds, portfolio,             //  state
+    username, funds, portfolio, needsUpdate, //  state
     handleSubmit, handleChange,             //  events dispatch
     updateFunds, updateTransactions,        //  conditional reload dispatch
-    updateStocks
+    updateStocks, updateStop
   } = props;
 
   //  helper function to display cents in dollar format:
@@ -27,13 +29,17 @@ const Portfolio = props => {
     return charArr.join('');
   };
 
-  console.log('portfolio.success?:', portfolio.success);
-  if (portfolio.success) {
-    updateFunds();
-    updateStocks();
-  }
-
-  updateTransactions();
+  useEffect(() => {
+    console.log('Portfolio Component: useEffects');
+    if (needsUpdate) {
+      console.log('entered if');
+      updateFunds();
+      updateTransactions();
+      updateStocks();
+      updateStop();
+      console.log('after updateStop()');
+    }
+  });
 
   return (
     <div>
@@ -86,7 +92,8 @@ const mapState = state => {
   return {
     username: state.user.username,
     funds: state.user.funds,
-    portfolio: state.portfolio
+    portfolio: state.portfolio,
+    needsUpdate: state.user.needsUpdate
   };
 };
 
@@ -100,6 +107,7 @@ const mapDispatch = dispatch => {
       const quantity = t.quantity.value;
 
       dispatch(buy(ticker, quantity));
+      dispatch(setUpdate());
     },
     handleChange: function(e) {
       e.preventDefault();
@@ -114,6 +122,9 @@ const mapDispatch = dispatch => {
     },
     updateStocks: function() {
       dispatch(updatePortfolio());
+    },
+    updateStop: function() {
+      dispatch(stopUpdate());
     }
   };
 };
@@ -127,7 +138,9 @@ Portfolio.propTypes = {
   portfolio: PropTypes.object,
   handleSubmit: PropTypes.func,
   handldChange: PropTypes.func,
+  needsUpdate: PropTypes.bool,
   updateFunds: PropTypes.func,
   updateTransactions: PropTypes.func,
-  updateStocks: PropTypes.func
+  updateStocks: PropTypes.func,
+  updateStop: PropTypes.func
 };

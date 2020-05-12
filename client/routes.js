@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Login, Register, Portfolio, Transactions } from './components';
-import { me, updateTransactions, updatePortfolio } from './store';
+import { me, updateTransactions, updatePortfolio, stopUpdate } from './store';
 
 /**
  * COMPONENT
@@ -11,8 +11,6 @@ import { me, updateTransactions, updatePortfolio } from './store';
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData();
-    this.props.loadTransactions();
-    this.props.loadPortfolio();
   }
 
   render() {
@@ -45,6 +43,7 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
+    needsUpdate: state.user.needsUpdate
   };
 };
 
@@ -58,6 +57,9 @@ const mapDispatch = dispatch => {
     },
     loadPortfolio() {
       dispatch(updatePortfolio());
+    },
+    callStopUpdate() {
+      dispatch(stopUpdate());
     }
   };
 };
