@@ -19,6 +19,8 @@ describe('User model', () => {
           email: 'cody@puppybook.com',
           password: 'bones'
         });
+
+        done();
       });
 
       it('returns true if the password is correct', () => {
