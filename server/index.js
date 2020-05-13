@@ -123,7 +123,9 @@ async function bootApp() {
 // It will evaluate false when this module is required by another module - for example,
 // if we wanted to require our app in a test spec
 if (require.main === module) {
+  console.error('calling bootApp()...');
   bootApp();
 } else {
+  console.error('calling createApp()...');
   createApp();
 }
