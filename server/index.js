@@ -19,8 +19,8 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 // attempting to debug heroku:
-console.err('process.env.PORT:', process.env.PORT);
-console.err('PORT:', PORT);
+console.error('process.env.PORT:', process.env.PORT);
+console.error('PORT:', PORT);
 
 /**
  * In your development environment, you can keep all of your
