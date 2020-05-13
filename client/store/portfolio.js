@@ -187,10 +187,13 @@ export const buy = (ticker, quantity) => async dispatch => {
 export default function(state = { stocks }, action) {
   switch (action.type) {
     case BUY_STOCK:
-      console.log('In BUY_STOCK');
-      console.log('state:', state);
-      console.log('state.stocks:', state.stocks);
-      console.log('actions:', action);
+/*
+      so update portfolio doesn't get need to be called again, maybe I can
+      do something like:
+      return map.includes(symbol) ?
+          { state.stocks.map(increment here), etc } :
+          { [...state.stocks, { payload stuff } ], etc }
+*/
 
       const e = action.payload.symbol.error;
 
