@@ -87,6 +87,7 @@ export const buy = (ticker, quantity) => async dispatch => {
   let qty = Number(quantity);
   let newFunds;
 
+  ticker = ticker.toUpperCase();
   //  get funds directly from the backend... does this cause an infinite loop
   //  if it errors? Should the dispatch be removed? Hasn't errored yet...
   try {
