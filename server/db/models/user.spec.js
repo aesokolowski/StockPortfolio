@@ -1,12 +1,12 @@
 /* global describe beforeEach it */
 
-const {expect} = require('chai');
+const { expect } = require('chai');
 const db = require('../index');
 const User = db.model('user');
 
-describe('User model', () => {
+xdescribe('User model', () => {
   beforeEach(() => {
-    return db.sync({force: true});
+    return db.sync({ force: true });
   });
 
   describe('instanceMethods', () => {
@@ -19,8 +19,6 @@ describe('User model', () => {
           email: 'cody@puppybook.com',
           password: 'bones'
         });
-
-        done();
       });
 
       it('returns true if the password is correct', () => {
