@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Build a stock-tracking web app (using an outside API for real-time pricing) per the mockups and user stories provided by NYC Tech Talent Pipeline and their associates.",
   "engines": {
-    "node": ">= 7.0.0"
+    "node": "=12"
   },
   "scripts": {
     "build-client": "webpack",
