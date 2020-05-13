@@ -100,6 +100,7 @@ const createApp = () => {
 };
 
 const startListening = () => {
+  console.error('hit startListening');
   // start listening (and create a 'server' object representing our server)
   const server = app.listen(PORT, () =>
     console.log(`Mixing it up on port ${PORT}`));
