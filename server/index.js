@@ -18,6 +18,10 @@ if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions());
 }
 
+// attempting to debug heroku:
+console.err('process.env.PORT:', process.env.PORT);
+console.err('PORT:', PORT);
+
 /**
  * In your development environment, you can keep all of your
  * app's secret API keys in a file called `secrets.js`, in your project
