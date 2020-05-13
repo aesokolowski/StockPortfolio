@@ -4,6 +4,7 @@ Originally a time-based challenge for the NYC Tech Talent Pipeline, decided to
 clean up now that it's been over two months since the deadline.
 
 Current Issues:
+  -- Mocha issues blocking CI
   -- needs style
   -- one of my reducers basically does nothing so state.portfolio.stocks
      needs to wait for the back-end to get updated in order to call the
