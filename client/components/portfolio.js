@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   buy,
-  clearSuccessMsg,
   setFunds,
   setUpdate,
   stopUpdate,
@@ -18,7 +17,7 @@ const Portfolio = props => {
     username, funds, portfolio, needsUpdate, //  state
     handleSubmit, handleChange,             //  events dispatch
     updateFunds, updateTransactions,        //  conditional reload dispatch
-    updateStocks, updateStop
+    updateStocks, updateStart, updateStop
   } = props;
 
   //  helper function to display cents in dollar format:
@@ -31,13 +30,14 @@ const Portfolio = props => {
 
   useEffect(() => {
     console.log('Portfolio Component: useEffects');
+    if (portfolio.success) {
+      updateStart();
+    }
     if (needsUpdate) {
-      console.log('entered if');
       updateFunds();
       updateTransactions();
       updateStocks();
       updateStop();
-      console.log('after updateStop()');
     }
   });
 
@@ -107,12 +107,6 @@ const mapDispatch = dispatch => {
       const quantity = t.quantity.value;
 
       dispatch(buy(ticker, quantity));
-      dispatch(setUpdate());
-    },
-    handleChange: function(e) {
-      e.preventDefault();
-
-      dispatch(clearSuccessMsg());
     },
     updateFunds: function() {
       dispatch(setFunds());
@@ -123,6 +117,9 @@ const mapDispatch = dispatch => {
     updateStocks: function() {
       dispatch(updatePortfolio());
     },
+    updateStart: function() {
+      dispatch(setUpdate());
+    },
     updateStop: function() {
       dispatch(stopUpdate());
     }
@@ -132,15 +129,15 @@ const mapDispatch = dispatch => {
 export default connect(mapState, mapDispatch)(Portfolio);
 
 Portfolio.propTypes = {
-  username: PropTypes.string,
-  funds: PropTypes.number,
+  username: PropTypes.string.isRequired,
+  funds: PropTypes.number.isRequired,
   error: PropTypes.string,
-  portfolio: PropTypes.object,
-  handleSubmit: PropTypes.func,
-  handldChange: PropTypes.func,
   needsUpdate: PropTypes.bool,
-  updateFunds: PropTypes.func,
-  updateTransactions: PropTypes.func,
-  updateStocks: PropTypes.func,
-  updateStop: PropTypes.func
+  portfolio: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  updateFunds: PropTypes.func.isRequired,
+  updateTransactions: PropTypes.func.isRequired,
+  updateStocks: PropTypes.func.isRequired,
+  updateStart: PropTypes.func.isRequired,
+  updateStop: PropTypes.func.isRequired
 };

@@ -59,6 +59,6 @@ export default connect(mapState)(Transactions);
   * PROP TYPES
   */
 Transactions.propTypes = {
-  username: PropTypes.string,
-  transactions: PropTypes.array
+  username: PropTypes.string.isRequired,
+  transactions: PropTypes.array.isRequired
 };

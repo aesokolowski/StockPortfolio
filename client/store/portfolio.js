@@ -109,7 +109,7 @@ export const buy = (ticker, quantity) => async dispatch => {
   try {
     //  data request from the IEX API:
     res = await axios.get('https://sandbox.iexapis.com/stable/stock/' + ticker +
-      '/quote?token=pk_05638d453cc44d23ab7dcd8cbd68a257');
+      '/quote?token=Tpk_05317838f1c446edb9717bb2d14ad2d9');
 
     console.log('res:', res);
     console.log('res2.data', res2.data);
@@ -187,38 +187,20 @@ export const buy = (ticker, quantity) => async dispatch => {
 export default function(state = { stocks }, action) {
   switch (action.type) {
     case BUY_STOCK:
+      console.log('In BUY_STOCK');
+      console.log('state:', state);
+      console.log('state.stocks:', state.stocks);
+      console.log('actions:', action);
+
       const e = action.payload.symbol.error;
 
       //  Andrew:
       //  I'm not sure if this is good Redux form, but I wanted the same action
       //  to be able to send two separate error messages: one if the ticker
       //  symbol is wrong, a different one if the user cannot afford the
-      //  purchase (so far only one error implemented):
+      //  purchase (this has gotten expanded since):
       if (e) {
         return { ...state, error: e.response };
-      }
-
-      const symbol = action.payload.symbol;
-      const newQty = Number(action.payload.qty);
-      const stocks = state.stocks;
-      let oldQty = 0;
-      //  this conditonal is so the following for loop is skipped if the
-      //  user owns no stocks:
-      let hiInd = stocks === [] || !stocks ? -1 : stocks.length - 1;
-
-      //  search to see if already own stock of this company -- if we do,
-      //  break and save the index location
-      for (let i = 0; i <= hiInd; i++) {
-        if (stocks[i].symbol === symbol) {
-          //  store old quantity
-          oldQty = stocks[i].qty;
-          //  swap if necessary
-          if (i !== hiInd) {
-            [stocks[i], stocks[hiInd]] = [stocks[hiInd], stocks[i]];
-          }
-          // pop
-          stocks.pop();
-        }
       }
 
       return {
