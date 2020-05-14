@@ -10,12 +10,32 @@ label {
   display: block;
 }
 
-nav a {
+nav a.button {
   display: inline-block;
-  margin: 1em;
+  padding: 1em;
+  border: 1px solid black;
+  background-color: red;
+  min-width: 4em;
+  text-align: center;
 }
 
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.navbar {
+  background-color: #3366ff;
+}
+
+.titletext {
+  color: #ffffff;
+  padding-top: 1em;
+  margin-left: 15%;
+}
+
+.menubuttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
