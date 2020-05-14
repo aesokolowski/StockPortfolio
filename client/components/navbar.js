@@ -4,49 +4,55 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../store';
 
-const Navbar = ({ handleClick, isLoggedIn }) => {
-
-  return (
-    <div id="navbar">
-      <h1 id="titletext">ANDY'S EZ STOCKS</h1>
-      <nav>
-        {isLoggedIn ? (
-          <div className="menubuttons">
-            {/* The navbar will show these links after you log in */}
-            <NavLink
-              className="button"
-              activeClassName="active"
-              to="/portfolio"
-            >
-              Portfolio
-            </NavLink>
-            <NavLink className="button" to="/transactions">Transactions</NavLink>
-            <a className="button" href="#" onClick={handleClick}>
-              Logout
-            </a>
-          </div>
-        ) : (
-          <div className="menubuttons">
-            {/* The navbar will show these links before you log in */}
-            <NavLink
-              className="button"
-              activeClassName="active"
-              to="/login"
-            >
-              Login
-            </NavLink>
-            <NavLink
-              className="button"
-              to="/register"
-            >
-              Register
-            </NavLink>
-          </div>
-        )}
-      </nav>
-    </div>
-  );
-};
+const Navbar = ({ handleClick, isLoggedIn }) => (
+  <div id="navbar">
+    <h1 id="titletext">ANDY'S EZ STOCKS</h1>
+    <nav>
+      {isLoggedIn ? (
+        <div className="menubuttons">
+          {/* The navbar will show these links after you log in */}
+          <NavLink
+            className="button"
+            activeClassName="active"
+            to="/portfolio"
+          >
+            Portfolio
+          </NavLink>
+          <NavLink
+            className="button"
+            to="/transactions"
+          >
+            Transactions
+          </NavLink>
+          <a
+className="button"
+             href="#"
+             onClick={handleClick}
+          >
+            Logout
+          </a>
+        </div>
+      ) : (
+        <div className="menubuttons">
+          {/* The navbar will show these links before you log in */}
+          <NavLink
+            className="button"
+            activeClassName="active"
+            to="/login"
+          >
+            Login
+          </NavLink>
+          <NavLink
+            className="button"
+            to="/register"
+          >
+            Register
+          </NavLink>
+        </div>
+      )}
+    </nav>
+  </div>
+);
 
 /**
  * CONTAINER

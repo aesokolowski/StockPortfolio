@@ -29,11 +29,18 @@ const Portfolio = props => {
   };
 
   useEffect(() => {
+    let success = portfolio.success;
+
     console.log('Portfolio Component: useEffects');
-    if (portfolio.success) {
+    if (success) {
       updateStart();
     }
     if (needsUpdate) {
+      /*
+      if (!success) {
+        updateFunds();  // leave out updateFunds() if you just bought a stock
+                        // since it should already be proper
+      }*/
       updateFunds();
       updateTransactions();
       updateStocks();

@@ -207,11 +207,41 @@ export default function(state = { stocks }, action) {
         return { ...state, error: e.response };
       }
 
+      let symbol = action.payload.symbol;
+      console.log('state.stocks:', state.stocks);
+
+// problem: includes(symbol) won't work... might have to abandon this idea
+/*
+      return state.stocks.includes(symbol) ? (
+        { stocks: state.stocks.map(stock => (
+            stock.symbol == symbol ? (
+              { symbol, qty: stock.quantity + action.payload.qty }
+            ) : (
+              stock
+            )
+          )),
+          error: undefined,
+          success: true
+        }
+      ) : (
+        {
+          stocks: [
+            ...state.stocks,
+            { symbol, qty: action.payload.qty }
+          ],
+          error: undefined,
+          success: true
+        }
+      );
+*/
+
+      // leave this in for now
       return {
         ...state,
         error: undefined,
         success: true
       };
+
     case CLEAR_SUCCESS_MSG:
       return { ...state, success: action.payload };
     case REMOVE_PORTFOLIO:
