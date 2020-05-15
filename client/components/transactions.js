@@ -1,17 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { centsToDollarString } from '../code';
 
 const Transactions = props => {
   const { username, transactions } = props;
-
-  //  helper function to display cents in dollar format:
-  const centsToDollarString = cents => {
-    let charArr = ('$' + cents.toString()).split('');
-
-    charArr.splice(-2, 0, '.');
-    return charArr.join('');
-  };
 
   return (
     <div>

@@ -188,13 +188,7 @@ export default function(state = { stocks }, action) {
     case BUY_STOCK:
       const e = action.payload.symbol.error;
 
-      //  I'm not sure if this is good Redux form, but I figured the easiest
-      //  way to print the various errors caused by axios calls that could pop
-      //  up in the convouted "buy" thunk creator was to add an error entry to
-      //  the portfolio state -- though I suppose I could create another
-      //  action like "REPORT_ERROR" because "BUY_STOCK" being called when
-      //  no stock is actually being purchased may be a bit confusing: but I
-      //  want to refactor that whole thunk creator anyway:
+      //  future: may want to split errors into a different action type
       if (e) {
         return { ...state, error: e.response };
       }
@@ -202,17 +196,15 @@ export default function(state = { stocks }, action) {
       let symbol = action.payload.symbol;
       console.log('state.stocks:', state.stocks);
 
-      //  doozy translated:
+      //  doozy return expression translated:
       //  if the length of the array returned by filtering for symbol is
       //  equal to one (coded as gt or eq to 1 for safety), then use the map
       //  function on state.stocks to increase the value of quantity for that
       //  entry; OTHERWISE, spread state.stocks and add an object representing
       //  the payload to the end. EITHER WAY: set error to null and success to
-      //  true (not a fan of all the parentheses but eslint is not a fan of
-      //  conditions without them, especially when nested or mixed with arrow
-      //  functions):
+      //  true:
       return state.stocks.filter(stock =>
-        stock.symbol === symbol).length >= 1 ? (
+          stock.symbol === symbol).length >= 1 ? (
         {
           stocks: state.stocks.map(stock => (
             stock.symbol === symbol ? (
