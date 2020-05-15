@@ -39,7 +39,6 @@ export const updateTransactions = () => async dispatch => {
   * REDUCER
   */
 export default function(state = defaultTransactions, action) {
-
   switch (action.type) {
     case UPDATE_RECORD:
       return action.payload;

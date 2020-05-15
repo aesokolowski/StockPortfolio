@@ -135,8 +135,6 @@ export const buy = (ticker, quantity) => async dispatch => {
     }
 
 
-    //  this dispatch either creates a new entry or updates an existing one
-    dispatch(buyStock(ticker, qty));
   } catch (buyError) {
     buyError.response = INV_SYM;
     return dispatch(buyStock({ error: buyError }));
@@ -176,8 +174,10 @@ export const buy = (ticker, quantity) => async dispatch => {
     return dispatch(buyStock({ error: updateError }));
   }
 
+
   try {
     history.push('/portfolio');
+    return dispatch(buyStock(ticker, qty));
   } catch (dispatchOrHistoryErr) {
     console.log(error.dispatchOrHistoryErr);
   }
