@@ -5,6 +5,7 @@ import { centsToDollarString } from '../code';
 import {
   buy,
   clearSuccessFlag,
+  clearSuccessMsg,
   setFunds,
   setUpdate,
   stopUpdate,
@@ -65,7 +66,7 @@ const Portfolio = props => {
         </div>
         <div>
           {portfolio.error ? <div>{portfolio.error}</div> : null}
-          {portfolio.success ? <div>{SUC_MSG}</div> : null}
+          {portfolio.successMsg ? <div>{SUC_MSG}</div> : null}
         </div>
         <br />
         <br />
@@ -105,6 +106,10 @@ const mapDispatch = dispatch => {
     clearSuccess: function() {
       dispatch(clearSuccessFlag());
     },
+    handleChange: function(e) {
+      e.preventDefault();
+      dispatch(clearSuccessMsg());
+    },                             // future: controlled component
     handleSubmit: function(e) {
       e.preventDefault();
       const t = e.target;
@@ -140,6 +145,7 @@ Portfolio.propTypes = {
   needsUpdate: PropTypes.bool,
   portfolio: PropTypes.object.isRequired,
   clearSuccess: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   updateFunds: PropTypes.func.isRequired,
   updateTransactions: PropTypes.func.isRequired,
