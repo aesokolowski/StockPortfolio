@@ -11,11 +11,6 @@ show the current performance overall.
 
 Current Issues:
   -- needs MORE style, right now only the navbar is CSS'ed up
-  -- no more infinite loops, but the success message clears immediately because
-     it needs its own separate flag
-  -- transactions doesn't load if you refresh the page -- this is because LOAD
-     TRANSACTIONS is actually dispatched when the Portfolio component is loaded
-     or after a "purchase", an event triggered also in the Portfolio component
   -- needs front-end validators (i.e. password must be of certain complexity,
      email must be a valid email address). I already have code I wrote for
      these tasks, though I may want to use regular expressions instead if only
@@ -29,6 +24,11 @@ Current Issues:
      and summing the quantities. Either I can stick to this method and just
      get rid of the portfolios model or alter the portfolios model to match
      how a portfolio is represented in the Redux state
+  -- "buy" thunk creator needs to be cleaned up/possibly refactored, especially
+     the try/catch blocks and corresponding errors
+  -- currently there's no admin account but I don't really see a need for one
+     yet -- unlike a store, for example, I don't need to add new products or
+     update inventory or anything like that -- 
 
 Sandbox data provided by IEX API. Gets switched to actual stock prices at times
 I'm not developing it.
