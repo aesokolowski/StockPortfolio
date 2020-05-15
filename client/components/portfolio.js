@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   buy,
+  clearSuccessFlag,
   setFunds,
   setUpdate,
   stopUpdate,
@@ -15,9 +16,10 @@ const SUC_MSG = 'Purchase successful.';
 const Portfolio = props => {
   const {
     username, funds, portfolio, needsUpdate, //  state
-    handleSubmit, handleChange,             //  events dispatch
-    updateFunds, updateTransactions,        //  conditional reload dispatch
-    updateStocks, updateStart, updateStop
+    handleSubmit, handleChange,              //  events dispatch
+    updateFunds, updateTransactions,         //  conditional reload dispatch
+    updateStocks, updateStart, updateStop,
+    clearSuccess
   } = props;
 
   //  helper function to display cents in dollar format:
@@ -43,6 +45,7 @@ const Portfolio = props => {
 
       updateFunds();
       updateTransactions();
+      clearSuccess();
       updateStop();
     }
   });
@@ -106,6 +109,9 @@ const mapState = state => {
 //  map dispatch to props
 const mapDispatch = dispatch => {
   return {
+    clearSuccess: function() {
+      dispatch(clearSuccessFlag());
+    },
     handleSubmit: function(e) {
       e.preventDefault();
       const t = e.target;
@@ -140,6 +146,7 @@ Portfolio.propTypes = {
   error: PropTypes.string,
   needsUpdate: PropTypes.bool,
   portfolio: PropTypes.object.isRequired,
+  clearSuccess: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   updateFunds: PropTypes.func.isRequired,
   updateTransactions: PropTypes.func.isRequired,

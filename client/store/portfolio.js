@@ -15,7 +15,7 @@ const UPDATE_TRANS_ERR = 'Unable to load transaction record to database.';
  */
 
 const BUY_STOCK = 'BUY_STOCK';
-const CLEAR_SUCCESS_MSG = 'CLEAR_SUCCESS_MSG';
+const CLEAR_SUCCESS_FLAG = 'CLEAR_SUCCESS_FLAG';
 const REMOVE_PORTFOLIO = 'REMOVE_PORTFOLIO';
 const LOAD_PORTFOLIO = 'LOAD_PORTFOLIO';
 
@@ -40,8 +40,7 @@ const loadPortfolio = data => ({ type: LOAD_PORTFOLIO, payload: data });
 
 export const removePortfolio = () => ({ type: REMOVE_PORTFOLIO });
 
-export const clearSuccessMsg = () =>
-  ({ type: CLEAR_SUCCESS_MSG, payload: false });
+export const clearSuccessFlag = () => ({ type: CLEAR_SUCCESS_FLAG });
 
 /**
  * THUNK CREATORS
@@ -235,8 +234,8 @@ export default function(state = { stocks }, action) {
           success: true
         }
       );
-    case CLEAR_SUCCESS_MSG:
-      return { ...state, success: action.payload };
+    case CLEAR_SUCCESS_FLAG:
+      return { ...state, success: false };
     case REMOVE_PORTFOLIO:
       return { stocks };                //  initial state
     case LOAD_PORTFOLIO:
