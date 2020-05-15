@@ -18,11 +18,6 @@ if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions());
 }
 
-// attempting to debug heroku:
-console.error('process.env.PORT:', process.env.PORT);
-console.error('PORT:', PORT);
-console.error('process.env.NODE_ENV:', process.env.NODE_ENV);
-
 /**
  * In your development environment, you can keep all of your
  * app's secret API keys in a file called `secrets.js`, in your project
@@ -100,10 +95,9 @@ const createApp = () => {
 };
 
 const startListening = () => {
-  console.error('hit startListening');
   // start listening (and create a 'server' object representing our server)
   const server = app.listen(PORT, () =>
-    console.log(`Mixing it up on port ${PORT}`));
+    console.log(`Listening on port ${PORT}...`));
 
   // set up our socket control center
   const io = socketio(server);
@@ -123,9 +117,7 @@ async function bootApp() {
 // It will evaluate false when this module is required by another module - for example,
 // if we wanted to require our app in a test spec
 if (require.main === module) {
-  console.error('calling bootApp()...');
   bootApp();
 } else {
-  console.error('calling createApp()...');
   createApp();
 }
