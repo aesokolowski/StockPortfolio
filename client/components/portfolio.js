@@ -38,7 +38,7 @@ const Portfolio = props => {
     if (needsUpdate) {
       if (!success) {
         updateStocks();  // leave out updateStocks() if you just bought a stock
-                        // since it should already be proper in the store
+                         // since it should already be proper in the store
       }
 
       updateFunds();

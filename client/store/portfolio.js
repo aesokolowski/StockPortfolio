@@ -23,7 +23,6 @@ const LOAD_PORTFOLIO = 'LOAD_PORTFOLIO';
  * INITIAL STATE
  */
 const stocks = [];
-const reset = [];
 
 /**
  * ACTION CREATORS
@@ -135,7 +134,7 @@ export const buy = (ticker, quantity) => async dispatch => {
 
 
     //  this dispatch either creates a new entry or updates an existing one
-    dispatch(buyStock(ticker, quantity));
+    dispatch(buyStock(ticker, qty));
   } catch (buyError) {
     buyError.response = INV_SYM;
     return dispatch(buyStock({ error: buyError }));
@@ -190,11 +189,13 @@ export default function(state = { stocks }, action) {
     case BUY_STOCK:
       const e = action.payload.symbol.error;
 
-      //  Andrew:
-      //  I'm not sure if this is good Redux form, but I wanted the same action
-      //  to be able to send two separate error messages: one if the ticker
-      //  symbol is wrong, a different one if the user cannot afford the
-      //  purchase (this has gotten expanded since):
+      //  I'm not sure if this is good Redux form, but I figured the easiest
+      //  way to print the various errors caused by axios calls that could pop
+      //  up in the convouted "buy" thunk creator was to add an error entry to
+      //  the portfolio state -- though I suppose I could create another
+      //  action like "REPORT_ERROR" because "BUY_STOCK" being called when
+      //  no stock is actually being purchased may be a bit confusing: but I
+      //  want to refactor that whole thunk creator anyway:
       if (e) {
         return { ...state, error: e.response };
       }
@@ -202,20 +203,21 @@ export default function(state = { stocks }, action) {
       let symbol = action.payload.symbol;
       console.log('state.stocks:', state.stocks);
 
-
       //  doozy translated:
       //  if the length of the array returned by filtering for symbol is
-      //  equal to one (coded as gt or eq to 1), then use the map function
-      //  on state.stocks to increase the value of quantity for that entry;
-      //  OTHERWISE, spread state.stocks and add an object representing the
-      //  payload to the end. EITHER WAY: set error to null and success to
-      //  true:
+      //  equal to one (coded as gt or eq to 1 for safety), then use the map
+      //  function on state.stocks to increase the value of quantity for that
+      //  entry; OTHERWISE, spread state.stocks and add an object representing
+      //  the payload to the end. EITHER WAY: set error to null and success to
+      //  true (not a fan of all the parentheses but eslint is not a fan of
+      //  conditions without them, especially when nested or mixed with arrow
+      //  functions):
       return state.stocks.filter(stock =>
         stock.symbol === symbol).length >= 1 ? (
         {
           stocks: state.stocks.map(stock => (
             stock.symbol === symbol ? (
-              { symbol, quantity: stock.quantity + Number(action.payload.qty) }
+              { symbol, quantity: stock.quantity + action.payload.qty }
             ) : (
               stock
             )
@@ -236,7 +238,7 @@ export default function(state = { stocks }, action) {
     case CLEAR_SUCCESS_MSG:
       return { ...state, success: action.payload };
     case REMOVE_PORTFOLIO:
-      return { stocks: reset };
+      return { stocks };                //  initial state
     case LOAD_PORTFOLIO:
       return { stocks: action.payload };
     default:
