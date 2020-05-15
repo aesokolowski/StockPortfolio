@@ -1,14 +1,21 @@
 ## Stock Portfolio web app
 
 Originally a time-based challenge for the NYC Tech Talent Pipeline, decided to
-clean up now that it's been over two months since the deadline.
+clean up now that it's been over two months since the deadline.  Currently
+can build a practice stock portfolio (with sandbox prices), but the goals here
+are a) show current price vs. last close for each stock and if feasible b)
+show the current performance overall.
 
 Current Issues:
-  -- needs style
-  -- one of my reducers basically does nothing so state.portfolio.stocks
-     needs to wait for the back-end to get updated in order to call the
-     backend and finally get updated -- at least it works, but I feel like
-     this can be a quick fix  (pseudocode in file)
+  -- needs MORE style, right now only the navbar is CSS'ed up
+  -- now that the BUY-STOCK reduction works as intended, the problem I have
+     is the infinite loop caused by the success flag: previously, it was
+     cleared when the portfolio store got updated to match the backend. Now
+     there's nothing there to clear it. Solution: I should probably use
+     two flags attached to the portfolio state, SUCCESS and SUCCESS_MSG --
+     that way I can clear the success flag immediately and still render
+     the success message until that gets cleared by another action (i.e.
+     typing into one of the input boxes or navigating away from the page)
   -- needs front-end validators (i.e. password must be of certain complexity,
      email must be a valid email address). I already have code I wrote for
      these tasks, though I may want to use regular expressions instead if only

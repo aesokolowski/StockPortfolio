@@ -188,14 +188,6 @@ export const buy = (ticker, quantity) => async dispatch => {
 export default function(state = { stocks }, action) {
   switch (action.type) {
     case BUY_STOCK:
-/*
-      so update portfolio doesn't get need to be called again, maybe I can
-      do something like:
-      return map.includes(symbol) ?
-          { state.stocks.map(increment here), etc } :
-          { [...state.stocks, { payload stuff } ], etc }
-*/
-
       const e = action.payload.symbol.error;
 
       //  Andrew:
@@ -210,38 +202,37 @@ export default function(state = { stocks }, action) {
       let symbol = action.payload.symbol;
       console.log('state.stocks:', state.stocks);
 
-// problem: includes(symbol) won't work... might have to abandon this idea
-/*
-      return state.stocks.includes(symbol) ? (
-        { stocks: state.stocks.map(stock => (
-            stock.symbol == symbol ? (
-              { symbol, qty: stock.quantity + action.payload.qty }
+
+      //  doozy translated:
+      //  if the length of the array returned by filtering for symbol is
+      //  equal to one (coded as gt or eq to 1), then use the map function
+      //  on state.stocks to increase the value of quantity for that entry;
+      //  OTHERWISE, spread state.stocks and add an object representing the
+      //  payload to the end. EITHER WAY: set error to null and success to
+      //  true:
+      return state.stocks.filter(stock =>
+        stock.symbol === symbol).length >= 1 ? (
+        {
+          stocks: state.stocks.map(stock => (
+            stock.symbol === symbol ? (
+              { symbol, quantity: stock.quantity + Number(action.payload.qty) }
             ) : (
               stock
             )
           )),
-          error: undefined,
+          error: null,
           success: true
         }
       ) : (
         {
           stocks: [
             ...state.stocks,
-            { symbol, qty: action.payload.qty }
+            { symbol, quantity: action.payload.qty }
           ],
-          error: undefined,
+          error: null,
           success: true
         }
       );
-*/
-
-      // leave this in for now
-      return {
-        ...state,
-        error: undefined,
-        success: true
-      };
-
     case CLEAR_SUCCESS_MSG:
       return { ...state, success: action.payload };
     case REMOVE_PORTFOLIO:
