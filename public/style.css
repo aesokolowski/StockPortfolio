@@ -11,6 +11,7 @@ a {
 
 label {
   display: block;
+  padding-left: 10px;
 }
 
 nav a.button {
@@ -29,8 +30,19 @@ nav a.active {
 }
 
 form div {
-  margin: 1em;
+  margin: 0.5em 1em 0.25em;
   display: inline-block;
+  font-size: 1.5em;
+}
+
+form div button, form div input {
+  min-height: 1.55em;
+  min-width: 90px;
+  font-size: 0.75em;
+}
+
+form div button {
+  border-radius: 10px;
 }
 
 div#app, div#outercontainer {
@@ -54,4 +66,8 @@ div#app, div#outercontainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+}
+
+#oauthbox {
+  margin: 1em 0em 0em 0.9em;
 }

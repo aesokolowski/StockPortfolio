@@ -36,12 +36,15 @@ const AuthForm = props => {
           </label>
           <input name="password" type="password" />
         </div>
+        <br />
         <div>
           <button type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      <a href="/auth/google">{displayName} with Google</a>
+      <div id="oauthbox">
+        Coming soon?: Login with Google/Facebook.
+      </div>
     </div>
   );
 };
