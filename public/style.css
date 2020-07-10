@@ -54,6 +54,15 @@ div.transactions-entry {
   margin: 0.5em 0em 0em 3em;
 }
 
+div.transactions-line {
+  display: flex;
+}
+
+div.transcat {
+  font-weight: bold;
+  min-width: 175px;
+}
+
 div#app, div#outercontainer {
   display: inherit;
   min-width: inherit;

@@ -13,11 +13,17 @@ const Transactions = props => {
         {
           transactions.map(transaction => (
             <div key={transaction.id} className="transactions-entry">
+              <div className="transactions-line">
+                <div className="transcat">Transaction #: </div>
+                <div className="transval">{transaction.id}</div>
+              </div>
+              <div className="transactions-line">
+                <div className="transcat">Symbol: </div>
+                <div className="transval">
+                  {transaction.symbol.toUpperCase()}
+                </div>
+              </div>
               <div>
-                Transaction #: {transaction.id}
-                <br />
-                Symbol: {transaction.symbol.toUpperCase()}
-                <br />
                 Company Name: {transaction.companyName}
                 <br />
                 # of Shares: {transaction.quantity}
