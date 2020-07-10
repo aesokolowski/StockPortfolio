@@ -36,6 +36,6 @@ I'm not developing it.
 Boilerplate for Express/Sequelize/React/Redux/Webpack starting point provided
 by Fullstack Academy, github.com/FullstackAcademy/boilermaker.  Merged into
 master on 2020/20/02. Original deadline 2020/27/02. Updates commenced
-2020/12/05.
+2020/12/05. Last updated 2020/10/07.
 
 author: Andrew E. Sokolowski, NY, USA
