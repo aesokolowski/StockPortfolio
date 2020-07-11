@@ -23,17 +23,29 @@ const Transactions = props => {
                   {transaction.symbol.toUpperCase()}
                 </div>
               </div>
-              <div>
-                Company Name: {transaction.companyName}
-                <br />
-                # of Shares: {transaction.quantity}
-                <br />
-                Share price: {centsToDollarString(transaction.boughtAt)}
-                <br />
-                Total cost: {centsToDollarString(transaction.transTotal)}
-                <br />
-                Purchase date: {transaction.createdAt}
-                <br />
+              <div className="transactions-line">
+                <div className="transcat">Company Name: </div>
+                <div className="transval">{transaction.companyName}</div>
+              </div>
+              <div className="transactions-line">
+                <div className="transcat"># of shares: </div>
+                <div className="transval">{transaction.quantity}</div>
+              </div>
+              <div className="transactions-line">
+                <div className="transcat">Purchased price: </div>
+                <div className="transval">
+                  {centsToDollarString(transaction.boughtAt)}
+                </div>
+              </div>
+              <div className="transactions-line">
+                <div className="transcat">Total cost: </div>
+                <div className="transval">
+                  {centsToDollarString(transaction.transTotal)}
+                </div>
+              </div>
+              <div className="transactions-line">
+                <div className="transcat">Purchase date: </div>
+                <div className="transval">{transaction.createdAt}</div>
               </div>
               <br />
             </div>
