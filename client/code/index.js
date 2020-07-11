@@ -17,6 +17,7 @@ export const toHumanDate = oldFormat => {
   let monthNum = oldFormat.substring(5, 7);
   let datePostfix, lastChar, eleTweThi;
   let dateNum = oldFormat.substring(8, 10);
+  let yearNum = oldFormat.substring(0, 4);
 
   //  determine month abbreviation
   switch (monthNum) {
@@ -60,7 +61,7 @@ export const toHumanDate = oldFormat => {
   else datePostfix = 'th';
 
   //  build return string
-  return monthName + ' ' + dateNum + datePostfix;
+  return monthName + ' ' + dateNum + datePostfix + ', ' + yearNum;
 };
 
 export const emailValidator = emailAdd => {

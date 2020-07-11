@@ -32,14 +32,14 @@ describe('Helper tests', () => {
       expectedOutput = [];
     });
 
-    it('properly converts months to human readable:', () => {
+    it('properly converts months to human readable', () => {
       //  setup:
       for (let i = 1; i <= 12; i++) {
         inputDates.push('2020-' + (i < 10 ? '0' : '') + i + '-01T00:00' +
             ':00.000Z');
       }
       for (let i = 0; i < 12; i++) {
-        expectedOutput.push(expectedMonths[i] + ' 1st');
+        expectedOutput.push(expectedMonths[i] + ' 1st, 2020');
       }
 
       //  tests:
@@ -49,18 +49,30 @@ describe('Helper tests', () => {
       }
     });
 
-    it('properly converts days to human readable:', () => {
+    it('properly converts days to human readable', () => {
       //  setup:
       for (let i = 1; i <= 31; i++) {
         inputDates.push('2020-01-' + (i < 10 ? '0' : '') + i + 'T00:00' +
             ':00.000Z');
       }
       for (let i = 0; i < 31; i++) {
-        expectedOutput.push('Jan. ' + expectedDays[i]);
+        expectedOutput.push('Jan. ' + expectedDays[i] + ', 2020');
       }
 
       //  tests:
       for (let i = 0; i < 31; i++) {
+        expect(toHumanDate(inputDates[i])).deep
+          .equals(expectedOutput[i]);
+      }
+    });
+
+    it('properly converts years to human readable', () => {
+      //  setup:
+      for (let i = 1901; i <= 2000; i++) {
+        inputDates.push(i + '-01-01T00:00:00.000Z');
+        expectedOutput.push('Jan. 1st, ' + i);
+      }
+      for (let i = 0; i < 100; i++) {
         expect(toHumanDate(inputDates[i])).deep
           .equals(expectedOutput[i]);
       }
