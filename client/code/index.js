@@ -18,6 +18,8 @@ export const toHumanDate = oldFormat => {
   let datePostfix, lastChar, eleTweThi;
   let dateNum = oldFormat.substring(8, 10);
   let yearNum = oldFormat.substring(0, 4);
+  let hourInt;
+  let hourNum = oldFormat.substring(11, 13);
 
   //  determine month abbreviation
   switch (monthNum) {
@@ -49,7 +51,11 @@ export const toHumanDate = oldFormat => {
       monthName = '???';
   }
 
-  //  remove leading zero
+  //  convert from 24 hour to 12 hour
+  hourInt = Number(hourNum) % 12;
+  hourNum = hourInt === 0 ? '12' : String(hourInt);
+
+  //  store last digit and remove any unnecessary leading zeroes
   lastChar = dateNum.slice(-1);
   if (dateNum[0] === '0') dateNum = dateNum[1];
 
@@ -61,7 +67,8 @@ export const toHumanDate = oldFormat => {
   else datePostfix = 'th';
 
   //  build return string
-  return monthName + ' ' + dateNum + datePostfix + ', ' + yearNum;
+  return monthName + ' ' + dateNum + datePostfix + ', ' + yearNum + ' at ' +
+      hourNum;
 };
 
 export const emailValidator = emailAdd => {
