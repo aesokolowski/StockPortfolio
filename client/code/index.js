@@ -2,7 +2,7 @@
 //  i.e. functions that don't alter the store, these would be called from a
 //  JSX context:
 
-//
+//  convert cents to dollar for displaying on client side
 export const centsToDollarString = cents => {
   let charArr = ('$' + cents.toString()).split('');
 

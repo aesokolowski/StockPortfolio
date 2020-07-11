@@ -31,6 +31,7 @@ export const stopUpdate = () => ({ type: STOP_UPDATE });
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me');
+
     dispatch(getUser(res.data || defaultUser));
   } catch (err) {
     console.error(err);
