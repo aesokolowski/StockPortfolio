@@ -12,8 +12,8 @@ describe('Helper tests', () => {
       expect(toHumanDate(dummy)).is.a('string');
     });
   });
-  describe('toHumanDate can convert segments of given date data:',
-      () => {
+  describe('toHumanDate can convert segments of given date data, ' +
+      'properly formatted i.e. Jun. 15th, 1952 at 3:45AM', () => {
     const expectedMonths = [
       'Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.',
       'Sep.', 'Oct.', 'Nov.', 'Dec.'
@@ -32,14 +32,15 @@ describe('Helper tests', () => {
       expectedOutput = [];
     });
 
-    it('properly converts months to human readable', () => {
+    it('properly converts months to human readable: 01 - 12 becomes ' +
+        'Jan. - Dec.', () => {
       //  setup:
       for (let i = 1; i <= 12; i++) {
         inputDates.push('2020-' + (i < 10 ? '0' : '') + i + '-01T00:00' +
             ':00.000Z');
       }
       for (let i = 0; i < 12; i++) {
-        expectedOutput.push(expectedMonths[i] + ' 1st, 2020 at 12');
+        expectedOutput.push(expectedMonths[i] + ' 1st, 2020 at 12AM');
       }
 
       //  tests:
@@ -49,14 +50,16 @@ describe('Helper tests', () => {
       }
     });
 
-    it('properly converts days to human readable', () => {
+    it('properly converts days to human readable: 00 - 31 become 1st -' +
+        ' 31st with correct postfixes', () => {
       //  setup:
       for (let i = 1; i <= 31; i++) {
         inputDates.push('2020-01-' + (i < 10 ? '0' : '') + i + 'T00:00' +
             ':00.000Z');
       }
       for (let i = 0; i < 31; i++) {
-        expectedOutput.push('Jan. ' + expectedDays[i] + ', 2020 at 12');
+        expectedOutput.push('Jan. ' + expectedDays[i] +
+            ', 2020 at 12AM');
       }
 
       //  tests:
@@ -66,11 +69,11 @@ describe('Helper tests', () => {
       }
     });
 
-    it('properly converts years to human readable', () => {
+    it('properly converts years to human readable: 1901 - 2000', () => {
       //  setup:
       for (let i = 1901; i <= 2000; i++) {
         inputDates.push(i + '-01-01T00:00:00.000Z');
-        expectedOutput.push('Jan. 1st, ' + i + ' at 12');
+        expectedOutput.push('Jan. 1st, ' + i + ' at 12AM');
       }
       for (let i = 0; i < 100; i++) {
         expect(toHumanDate(inputDates[i])).deep
@@ -78,7 +81,8 @@ describe('Helper tests', () => {
       }
     });
 
-    it('properly converts hours to human readable', () => {
+    it('properly converts hours to human readable: 00 - 23 becomes 12AM'
+        + ', 1AM, 2AM..11AM, 12PM, 1PM..11PM', () => {
       //  setup:
       for (let i = 0; i <= 23; i++) {
         let modded = i % 12;
@@ -86,7 +90,7 @@ describe('Helper tests', () => {
         inputDates.push('2020-01-01T' + (i < 10 ? '0' : '') + i + ':00' +
             ':00.000Z');
         expectedOutput.push('Jan. 1st, 2020 at ' +
-            (modded === 0 ? '12' : modded));
+            (modded === 0 ? '12' : modded) + (i >= 12 ? 'PM' : 'AM'));
       }
 
       //  test:
