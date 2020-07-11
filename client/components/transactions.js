@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { centsToDollarString } from '../code';
+import { centsToDollarString, toHumanDate } from '../code';
 
 const Transactions = props => {
   const { username, transactions } = props;
@@ -45,7 +45,9 @@ const Transactions = props => {
               </div>
               <div className="transactions-line">
                 <div className="transcat">Purchase date: </div>
-                <div className="transval">{transaction.createdAt}</div>
+                <div className="transval">
+                  {toHumanDate(transaction.createdAt)}
+                </div>
               </div>
               <br />
             </div>
