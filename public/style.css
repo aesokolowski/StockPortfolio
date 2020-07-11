@@ -45,12 +45,12 @@ form div button {
   border-radius: 10px;
 }
 
-h3#transactions-title {
+h3.user-indicator {
   font-size: 1.75em;
   margin: 1em 0em 1.5em 1em;
 }
 
-div.transactions-entry {
+div.transactions-entry, h4.funds-indicator {
   font-size: 1.25em;
   margin: 0.5em 0em 0em 3em;
 }
@@ -62,6 +62,10 @@ div.transactions-line {
 div.transcat {
   font-weight: bold;
   min-width: 175px;
+}
+
+div#portfolio-form {
+  font-size: 0.93em;
 }
 
 div#app, div#outercontainer {

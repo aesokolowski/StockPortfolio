@@ -46,10 +46,10 @@ const Portfolio = props => {
 
   return (
     <div>
-      <h3>{username}'s Portfolio</h3>
-      <h4>Funds: {centsToDollarString(funds)}</h4>
+      <h3 className="user-indicator">{username}'s Portfolio</h3>
+      <h4 className="funds-indicator">Funds: {centsToDollarString(funds)}</h4>
       <form onSubmit={handleSubmit} name={name}>
-        <div>
+        <div id="portfolio-form">
           <div>
             <label htmlFor="ticker">
               Ticker

@@ -8,7 +8,7 @@ const Transactions = props => {
 
   return (
     <div>
-      <h3 id="transactions-title">{username}'s Transaction History</h3>
+      <h3 className="user-indicator">{username}'s Transaction History</h3>
       <div>
         {
           transactions.map(transaction => (
