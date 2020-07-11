@@ -15,7 +15,10 @@ export const centsToDollarString = cents => {
 export const toHumanDate = oldFormat => {
   let monthName;
   let monthNum = oldFormat.substring(5, 7);
+  let datePostfix, lastChar, eleTweThi;
+  let dateNum = oldFormat.substring(8, 10);
 
+  //  determine month abbreviation
   switch (monthNum) {
     case '01':
       monthName = 'Jan.'; break;
@@ -45,7 +48,19 @@ export const toHumanDate = oldFormat => {
       monthName = '???';
   }
 
-  return monthName;
+  //  remove leading zero
+  lastChar = dateNum.slice(-1);
+  if (dateNum[0] === '0') dateNum = dateNum[1];
+
+  //  determine postfix for date
+  eleTweThi = dateNum === '11' || dateNum === '12' || dateNum === '13';
+  if (lastChar === '1' && !eleTweThi) datePostfix = 'st';
+  else if (lastChar === '2' && !eleTweThi) datePostfix = 'nd';
+  else if (lastChar === '3' && !eleTweThi) datePostfix = 'rd';
+  else datePostfix = 'th';
+
+  //  build return string
+  return monthName + ' ' + dateNum + datePostfix;
 };
 
 export const emailValidator = emailAdd => {
