@@ -11,7 +11,7 @@ export const centsToDollarString = cents => {
 };
 
 //  covert 'YYYY-MM-DDTHH.MM.SS.UUUZ' to
-//  '<Month> <Day><st/nd/rd/th>, <YEAR> at HH:MM<AM/PM>'
+//  '<Month> <Day><st/nd/rd/th>, <Year> at HH:MM<AM/PM>'
 export const toHumanDate = oldFormat => {
   let monthName;
   let monthNum = oldFormat.substring(5, 7);
@@ -22,6 +22,7 @@ export const toHumanDate = oldFormat => {
   let hourNum = oldFormat.substring(11, 13);
   let hn = Number(hourNum);
   let isPM;
+  let minuteNum = oldFormat.substring(14, 16);
 
   //  determine month abbreviation
   switch (monthNum) {
@@ -71,7 +72,7 @@ export const toHumanDate = oldFormat => {
 
   //  build return string
   return monthName + ' ' + dateNum + datePostfix + ', ' + yearNum + ' at ' +
-      hourNum + (isPM ? 'PM' : 'AM');
+      hourNum + ':' + minuteNum + (isPM ? 'PM' : 'AM');
 };
 
 /*

@@ -40,7 +40,7 @@ describe('Helper tests', () => {
             ':00.000Z');
       }
       for (let i = 0; i < 12; i++) {
-        expectedOutput.push(expectedMonths[i] + ' 1st, 2020 at 12AM');
+        expectedOutput.push(expectedMonths[i] + ' 1st, 2020 at 12:00AM');
       }
 
       //  tests:
@@ -59,7 +59,7 @@ describe('Helper tests', () => {
       }
       for (let i = 0; i < 31; i++) {
         expectedOutput.push('Jan. ' + expectedDays[i] +
-            ', 2020 at 12AM');
+            ', 2020 at 12:00AM');
       }
 
       //  tests:
@@ -73,7 +73,7 @@ describe('Helper tests', () => {
       //  setup:
       for (let i = 1901; i <= 2000; i++) {
         inputDates.push(i + '-01-01T00:00:00.000Z');
-        expectedOutput.push('Jan. 1st, ' + i + ' at 12AM');
+        expectedOutput.push('Jan. 1st, ' + i + ' at 12:00AM');
       }
       for (let i = 0; i < 100; i++) {
         expect(toHumanDate(inputDates[i])).deep
@@ -90,11 +90,29 @@ describe('Helper tests', () => {
         inputDates.push('2020-01-01T' + (i < 10 ? '0' : '') + i + ':00' +
             ':00.000Z');
         expectedOutput.push('Jan. 1st, 2020 at ' +
-            (modded === 0 ? '12' : modded) + (i >= 12 ? 'PM' : 'AM'));
+            (modded === 0 ? '12' : modded) + ':00' +
+            (i >= 12 ? 'PM' : 'AM'));
       }
 
       //  test:
       for (let i = 0; i < 24; i++) {
+        expect(toHumanDate(inputDates[i])).deep
+          .equals(expectedOutput[i]);
+      }
+    });
+
+    it('properly takes the minutes from the input and puts it in the ' +
+        'correct place in the output: 00 - 59', () => {
+      // setup:
+      for (let i = 0; i <= 59; i++) {
+        inputDates.push('2020-01-01T00:' + (i < 10 ? '0' : '') + i +
+            ':00.000Z');
+        expectedOutput.push('Jan. 1st, 2020 at 12:' +
+            (i < 10 ? '0' : '') + i + 'AM');
+      }
+
+      //  test
+      for (let i = 0; i < 60; i++) {
         expect(toHumanDate(inputDates[i])).deep
           .equals(expectedOutput[i]);
       }
