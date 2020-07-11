@@ -18,7 +18,7 @@
     "start": "node server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
     "start-server": "nodemon server -e html,js,scss,css",
-    "test": "NODE_ENV='test' mocha \"./client/**/*.spec.js\" --require @babel/register --require @babel/polyfill"
+    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./script/**/*.spec.js\" \"./client/code/*.spec.js\" --require @babel/polyfill --require @babel/register"
   },
   "husky": {
     "hooks": {
