@@ -62,28 +62,28 @@ const Portfolio = props => {
             </label>
             <input name="quantity" type="text" onChange={handleChange} />
           </div>
-          <button type="submit">BUY</button>
-        </div>
-        <div>
-          {portfolio.error ? <div>{portfolio.error}</div> : null}
-          {portfolio.successMsg ? <div>{SUC_MSG}</div> : null}
-        </div>
-        <br />
-        <br />
-        <div>
-          {
-            portfolio.stocks.map((stock, idx) => (
-              <div key={idx}>
-                Symbol: {stock.symbol}
-                <br />
-                Quantity: {stock.quantity}
-                <br />
-                <br />
-              </div>
-            ))
-          }
+          <button id="buy-button" type="submit">Buy</button>
         </div>
       </form>
+      <div>
+        {portfolio.error ? <div>{portfolio.error}</div> : null}
+        {portfolio.successMsg ? <div>{SUC_MSG}</div> : null}
+      </div>
+      <br />
+      <br />
+      <div>
+        {
+          portfolio.stocks.map((stock, idx) => (
+            <div key={idx}>
+              Symbol: {stock.symbol}
+              <br />
+              Quantity: {stock.quantity}
+              <br />
+              <br />
+            </div>
+          ))
+        }
+      </div>
     </div>
   );
 };

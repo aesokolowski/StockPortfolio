@@ -45,6 +45,11 @@ form div button {
   border-radius: 10px;
 }
 
+form div button#buy-button {
+  min-height: 2.5em;
+  font-size: 0.9em;
+}
+
 h3.user-indicator {
   font-size: 1.75em;
   margin: 1em 0em 1.5em 1em;
