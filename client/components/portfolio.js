@@ -27,7 +27,6 @@ const Portfolio = props => {
   useEffect(() => {
     let success = portfolio.success || null;
 
-    console.log('Portfolio Component: useEffects');
     if (success) {
       updateStart();
     }

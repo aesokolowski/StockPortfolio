@@ -23,6 +23,7 @@ export const toHumanDate = oldFormat => {
   let hn = Number(hourNum);
   let isPM;
   let minuteNum = oldFormat.substring(14, 16);
+  let dateObj;
 
   //  determine month abbreviation
   switch (monthNum) {
@@ -53,6 +54,10 @@ export const toHumanDate = oldFormat => {
     default:
       monthName = '???';
   }
+
+  //  get offset from Greenwhich Mean Time and
+  dateObj = new Date(yearNum, Number(monthNum) - 1, Number(dateNum), hn);
+  hn += Number(String(dateObj).substring(28, 31));
 
   //  convert from 24 hour to 12 hour
   isPM = hn >= 12;

@@ -12,9 +12,11 @@ show the current performance overall.
 Current Issues:
   -- Portfolio component needs to be styled, styling the auth page really
      screwed up the portfolio one
-  -- Human readable date function needs to be tested for proper postfixes
-     (i.e. 1st, 11th, 21st, etc)
-  -- Human readable date function needs year and time
+  -- human readable date issue: it works, but it's all in Greenwhich Mean Time
+     because that's the timezone given by the IEX API. Should make into a
+     Date object and then undo it so that all the various conversions are
+     performed automatically (date, year, etc. that roll over when hours are
+     added or subtracted to GMT).
   -- needs front-end validators (i.e. password must be of certain complexity,
      email must be a valid email address). I already have code I wrote for
      these tasks, though I may want to use regular expressions instead if only
